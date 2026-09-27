@@ -5,24 +5,28 @@ pres.layout = 'LAYOUT_WIDE' // 13.33 x 7.5
 pres.author = 'Feastly Demo'
 pres.title = 'Feastly — Data Collection to AEP'
 
-// ---- palette (no #) ----
-const INK = '2B2320'
-const CORAL = 'FF5722'
-const CORAL_DK = 'E64A19'
-const GOLD = 'FFB300'
+// ---- palette (Adobe template theme, no #) ----
+const INK = '1F1F1F'
+const CORAL = 'EB1000'      // Adobe red (primary accent)
+const CORAL_DK = 'B10C00'
+const GOLD = 'FFA311'       // Adobe orange
 const WHITE = 'FFFFFF'
-const MUTED = '7D726C'
-const LINE = 'E7DED8'
-const GREEN = '2E7D32'
-const SOFT = 'FFF3EE' // soft coral tint for cards
-const HF = 'Cambria'   // header font (safe)
-const BF = 'Calibri'   // body font (safe)
+const MUTED = '6B6B6B'
+const LINE = 'E3E3E3'
+const GREEN = '0AA35B'      // Adobe green
+const BLUE = '3A63F9'       // Adobe blue
+const PINK = 'FF66CC'       // Adobe pink
+const YELLOW = 'F3C600'     // Adobe yellow
+const ACCENTS = ['EB1000', '0AA35B', '3A63F9', 'FFA311', 'FF66CC'] // vibrant rotation
+const SOFT = 'FDECEA'       // light red tint for cards
+const HF = 'Adobe Clean'    // template header font
+const BF = 'Adobe Clean'    // template body font
 
 const W = 13.33, H = 7.5, M = 0.6
 
 // screenshot placeholder box
 function shot(slide, x, y, w, h, label) {
-  slide.addShape(pres.ShapeType.roundRect, { x, y, w, h, rectRadius: 0.08, fill: { color: 'F4EEEA' }, line: { color: CORAL, width: 1.25, dashType: 'dash' } })
+  slide.addShape(pres.ShapeType.roundRect, { x, y, w, h, rectRadius: 0.08, fill: { color: 'F2F2F2' }, line: { color: CORAL, width: 1.25, dashType: 'dash' } })
   slide.addText([
     { text: '📸  ', options: { fontSize: 20 } },
     { text: 'SCREENSHOT', options: { fontSize: 13, bold: true, color: CORAL_DK } },
@@ -50,7 +54,7 @@ s.addText('🍔', { x: M, y: 1.5, w: 2, h: 1.2, fontSize: 64, isTextBox: true, m
 s.addText('Feastly', { x: M, y: 2.7, w: 9, h: 0.9, fontSize: 30, bold: true, color: GOLD, fontFace: HF, isTextBox: true, margin: 0 })
 s.addText('Understanding Data Collection → AEP', { x: M, y: 3.4, w: 10.5, h: 1.2, fontSize: 44, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
 s.addText('How a website sends streaming events, profile attributes and identity into Adobe Experience Platform — the simple, standard way.', { x: M, y: 4.8, w: 9.5, h: 0.9, fontSize: 16, color: 'CADCFC', fontFace: BF, isTextBox: true, margin: 0 })
-s.addText('A hands-on demo for the AEP Support team', { x: M, y: 6.5, w: 9, h: 0.4, fontSize: 13, italic: true, color: 'A89B94', fontFace: BF, isTextBox: true, margin: 0 })
+s.addText('A hands-on demo for the AEP Support team', { x: M, y: 6.5, w: 9, h: 0.4, fontSize: 13, italic: true, color: '9B9B9B', fontFace: BF, isTextBox: true, margin: 0 })
 s.addNotes('Intro: Feastly is a fake food-ordering site we built purely to show how the Data Collection side works and how data arrives in AEP. Our team lives in AEP; today we look one step upstream.')
 
 // ---------------------------------------------------------------- Slide 2: Why
@@ -90,7 +94,7 @@ steps.forEach((st, i) => {
   s.addShape(pres.ShapeType.roundRect, { x: bx, y: by, w: bw, h: bh, rectRadius: 0.1, fill: { color: fill }, line: { type: 'none' } })
   s.addText(st[2], { x: bx, y: by + 0.18, w: bw, h: 0.6, align: 'center', fontSize: 26, isTextBox: true, margin: 0 })
   s.addText(st[0], { x: bx, y: by + 0.78, w: bw, h: 0.4, align: 'center', fontSize: 15, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
-  s.addText(st[1], { x: bx + 0.1, y: by + 1.16, w: bw - 0.2, h: 0.5, align: 'center', fontSize: 10.5, color: 'D9CFC9', fontFace: BF, isTextBox: true, margin: 0 })
+  s.addText(st[1], { x: bx + 0.1, y: by + 1.16, w: bw - 0.2, h: 0.5, align: 'center', fontSize: 10.5, color: 'CFCFCF', fontFace: BF, isTextBox: true, margin: 0 })
   if (i < steps.length - 1) s.addText('▸', { x: bx + bw - 0.02, y: by + bh / 2 - 0.25, w: gap + 0.04, h: 0.5, align: 'center', valign: 'middle', fontSize: 16, bold: true, color: CORAL, isTextBox: true, margin: 0 })
   bx += bw + gap
 })
@@ -115,8 +119,10 @@ const cw = (W - 2 * M - 0.4) / 2
 terms.forEach((t, i) => {
   const col = i % 2, row = Math.floor(i / 2)
   const x = M + col * (cw + 0.4), y = 1.85 + row * 1.18
+  const tcol = ['B10C00', '0AA35B', '3A63F9', 'C67F00', 'C2149B', '0AA35B', '3A63F9', 'B10C00'][i]
   s.addShape(pres.ShapeType.roundRect, { x, y, w: cw, h: 1.0, rectRadius: 0.07, fill: { color: WHITE }, line: { color: LINE, width: 1 } })
-  s.addText(t[0], { x: x + 0.25, y: y + 0.13, w: cw - 0.5, h: 0.35, fontSize: 15, bold: true, color: CORAL_DK, fontFace: BF, isTextBox: true, margin: 0 })
+  s.addShape(pres.ShapeType.ellipse, { x: x + 0.25, y: y + 0.2, w: 0.14, h: 0.14, fill: { color: tcol } })
+  s.addText(t[0], { x: x + 0.5, y: y + 0.13, w: cw - 0.7, h: 0.35, fontSize: 15, bold: true, color: tcol, fontFace: BF, isTextBox: true, margin: 0 })
   s.addText(t[1], { x: x + 0.25, y: y + 0.47, w: cw - 0.5, h: 0.45, fontSize: 12.5, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 })
 s.addNotes('Do not linger — this is a reference slide. Tell people it maps to the flow: data layer -> data elements -> rules -> web sdk -> datastream -> schema/identity/profile.')
@@ -146,7 +152,7 @@ fd.addNotes('Transition: before we look at the actual config, let us learn the v
 let p1 = pres.addSlide(); p1.background = { color: WHITE }
 titleBar(p1, 'Foundations · 1', 'What is a Tag (Launch) property?')
 p1.addText('Your tracking "control room" — one container that holds everything you configure.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
-p1.addShape(pres.ShapeType.roundRect, { x: M, y: 2.2, w: W - 2 * M, h: 4.3, rectRadius: 0.1, fill: { color: 'FBF4F0' }, line: { color: CORAL, width: 1.5 } })
+p1.addShape(pres.ShapeType.roundRect, { x: M, y: 2.2, w: W - 2 * M, h: 4.3, rectRadius: 0.1, fill: { color: 'F7F7F7' }, line: { color: CORAL, width: 1.5 } })
 p1.addText('🏷️  Tag Property — “Feastly Web”', { x: M + 0.3, y: 2.4, w: 8, h: 0.5, fontSize: 17, bold: true, color: CORAL_DK, fontFace: BF, isTextBox: true, margin: 0 })
 const pcards = [['🧩', 'Extensions', 'Plug-ins that add powers (Web SDK, Client Data Layer).'], ['🔤', 'Data Elements', 'Reusable variables that read values from the page.'], ['⚡', 'Rules', 'When X happens → do Y (send an event).'], ['📚', 'Libraries', 'Bundles of changes you build & publish.']]
 const pcw = (W - 2 * M - 0.8 - 3 * 0.3) / 4
@@ -205,7 +211,7 @@ const pfw = 1.85, pfgap = 0.16
 let pfx = (W - (pf.length * pfw + (pf.length - 1) * pfgap)) / 2
 pf.forEach((c, i) => {
   const live = i >= 3
-  card(p5, pfx, 2.9, pfw, 2.2, c[0], c[1], c[2], live ? SOFT : 'F4EEEA', INK)
+  card(p5, pfx, 2.9, pfw, 2.2, c[0], c[1], c[2], live ? SOFT : 'F2F2F2', INK)
   if (i < pf.length - 1) p5.addText('▸', { x: pfx + pfw - 0.03, y: 3.75, w: pfgap + 0.06, h: 0.5, align: 'center', valign: 'middle', fontSize: 15, bold: true, color: CORAL, isTextBox: true, margin: 0 })
   pfx += pfw + pfgap
 })
@@ -218,19 +224,19 @@ p6.addText('FOUNDATIONS · 6', { x: M, y: 0.55, w: 10, h: 0.3, fontSize: 12.5, b
 p6.addText('The Datastream pipeline', { x: M, y: 0.85, w: 12, h: 0.8, fontSize: 32, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
 p6.addText('The Web SDK sends ONE event to the Edge. The datastream decides which Adobe apps receive it — server-side.', { x: M, y: 1.7, w: 12, h: 0.5, fontSize: 15, color: 'CADCFC', fontFace: BF, isTextBox: true, margin: 0 })
 // browser -> edge -> datastream
-p6.addShape(pres.ShapeType.roundRect, { x: M, y: 2.7, w: 2.7, h: 1.4, rectRadius: 0.1, fill: { color: '3A302B' }, line: { color: CORAL, width: 1.25 } })
+p6.addShape(pres.ShapeType.roundRect, { x: M, y: 2.7, w: 2.7, h: 1.4, rectRadius: 0.1, fill: { color: '2C2C2C' }, line: { color: CORAL, width: 1.25 } })
 p6.addText('🖥️ Browser\nWeb SDK', { x: M, y: 3.0, w: 2.7, h: 0.9, align: 'center', fontSize: 14, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
 p6.addText('▸', { x: M + 2.75, y: 3.15, w: 0.5, h: 0.5, align: 'center', fontSize: 22, bold: true, color: CORAL, isTextBox: true, margin: 0 })
-p6.addShape(pres.ShapeType.roundRect, { x: M + 3.35, y: 2.7, w: 2.9, h: 1.4, rectRadius: 0.1, fill: { color: '3A302B' }, line: { color: CORAL, width: 1.25 } })
+p6.addShape(pres.ShapeType.roundRect, { x: M + 3.35, y: 2.7, w: 2.9, h: 1.4, rectRadius: 0.1, fill: { color: '2C2C2C' }, line: { color: CORAL, width: 1.25 } })
 p6.addText('🔀 Edge Network\n+ Datastream', { x: M + 3.35, y: 3.0, w: 2.9, h: 0.9, align: 'center', fontSize: 14, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
 // fan-out
-const fo = [['☁️ AEP', 'Profiles + datasets', CORAL], ['📊 Analytics', 'Reports (optional)', '3A302B'], ['🎯 Target', 'Personalization (optional)', '3A302B']]
+const fo = [['☁️ AEP', 'Profiles + datasets', CORAL], ['📊 Analytics', 'Reports (optional)', '2C2C2C'], ['🎯 Target', 'Personalization (optional)', '2C2C2C']]
 fo.forEach((c, i) => {
   const y = 2.35 + i * 1.3
   p6.addText('▸', { x: M + 6.35, y: y + 0.15, w: 0.5, h: 0.5, align: 'center', fontSize: 18, bold: true, color: CORAL, isTextBox: true, margin: 0 })
-  p6.addShape(pres.ShapeType.roundRect, { x: M + 6.95, y, w: 5.0, h: 1.05, rectRadius: 0.1, fill: { color: c[2] }, line: { color: c[2] === CORAL ? CORAL : '5A4E48', width: 1 } })
+  p6.addShape(pres.ShapeType.roundRect, { x: M + 6.95, y, w: 5.0, h: 1.05, rectRadius: 0.1, fill: { color: c[2] }, line: { color: c[2] === CORAL ? CORAL : '4A4A4A', width: 1 } })
   p6.addText(c[0], { x: M + 7.2, y: y + 0.12, w: 4.6, h: 0.4, fontSize: 15, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
-  p6.addText(c[1], { x: M + 7.2, y: y + 0.55, w: 4.6, h: 0.4, fontSize: 12, color: 'D9CFC9', fontFace: BF, isTextBox: true, margin: 0 })
+  p6.addText(c[1], { x: M + 7.2, y: y + 0.55, w: 4.6, h: 0.4, fontSize: 12, color: 'CFCFCF', fontFace: BF, isTextBox: true, margin: 0 })
 })
 p6.addText('Feastly enables only AEP — but the same event could feed all three without touching the website.', { x: M, y: 6.7, w: 12, h: 0.4, fontSize: 12.5, italic: true, color: 'CADCFC', fontFace: BF, isTextBox: true, margin: 0 })
 p6.addNotes('Key idea: one call to the Edge, fanned out server-side by the datastream. Add/remove destinations without code changes.')
@@ -311,14 +317,14 @@ s = pres.addSlide(); s.background = { color: INK }
 s.addText('IDENTITY & PROFILE', { x: M, y: 0.55, w: 10, h: 0.3, fontSize: 12.5, bold: true, color: GOLD, charSpacing: 2, fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('Anonymous → Known: how one profile forms', { x: M, y: 0.85, w: 12, h: 0.8, fontSize: 30, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
 // two identity nodes merging
-s.addShape(pres.ShapeType.roundRect, { x: 1.2, y: 2.5, w: 3.6, h: 1.5, rectRadius: 0.1, fill: { color: '3A302B' }, line: { color: CORAL, width: 1.25 } })
+s.addShape(pres.ShapeType.roundRect, { x: 1.2, y: 2.5, w: 3.6, h: 1.5, rectRadius: 0.1, fill: { color: '2C2C2C' }, line: { color: CORAL, width: 1.25 } })
 s.addText('🕶️  Anonymous', { x: 1.2, y: 2.7, w: 3.6, h: 0.4, align: 'center', fontSize: 15, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('ECID', { x: 1.2, y: 3.1, w: 3.6, h: 0.4, align: 'center', fontSize: 18, bold: true, color: GOLD, fontFace: BF, isTextBox: true, margin: 0 })
-s.addText('set by the Web SDK', { x: 1.2, y: 3.5, w: 3.6, h: 0.35, align: 'center', fontSize: 11, color: 'D9CFC9', fontFace: BF, isTextBox: true, margin: 0 })
-s.addShape(pres.ShapeType.roundRect, { x: 1.2, y: 4.3, w: 3.6, h: 1.5, rectRadius: 0.1, fill: { color: '3A302B' }, line: { color: CORAL, width: 1.25 } })
+s.addText('set by the Web SDK', { x: 1.2, y: 3.5, w: 3.6, h: 0.35, align: 'center', fontSize: 11, color: 'CFCFCF', fontFace: BF, isTextBox: true, margin: 0 })
+s.addShape(pres.ShapeType.roundRect, { x: 1.2, y: 4.3, w: 3.6, h: 1.5, rectRadius: 0.1, fill: { color: '2C2C2C' }, line: { color: CORAL, width: 1.25 } })
 s.addText('👤  Signed in', { x: 1.2, y: 4.5, w: 3.6, h: 0.4, align: 'center', fontSize: 15, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('Email identity', { x: 1.2, y: 4.9, w: 3.6, h: 0.4, align: 'center', fontSize: 18, bold: true, color: GOLD, fontFace: BF, isTextBox: true, margin: 0 })
-s.addText('added to identityMap', { x: 1.2, y: 5.3, w: 3.6, h: 0.35, align: 'center', fontSize: 11, color: 'D9CFC9', fontFace: BF, isTextBox: true, margin: 0 })
+s.addText('added to identityMap', { x: 1.2, y: 5.3, w: 3.6, h: 0.35, align: 'center', fontSize: 11, color: 'CFCFCF', fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('▸', { x: 5.0, y: 3.5, w: 1.0, h: 1.0, align: 'center', valign: 'middle', fontSize: 40, bold: true, color: CORAL, isTextBox: true, margin: 0 })
 s.addShape(pres.ShapeType.roundRect, { x: 6.4, y: 3.1, w: 5.6, h: 2.3, rectRadius: 0.12, fill: { color: CORAL }, line: { type: 'none' } })
 s.addText('🧑‍🤝‍🧑  One AEP Profile', { x: 6.4, y: 3.35, w: 5.6, h: 0.5, align: 'center', fontSize: 18, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
@@ -382,7 +388,7 @@ s.addText('“The website only speaks the data layer. Tags translates it to XDM,
 const recap = ['Data layer = what happened', 'Data elements = variables', 'Rules = when → send', 'Datastream = where it goes']
 recap.forEach((r, i) => {
   const x = M + i * 3.05
-  s.addShape(pres.ShapeType.roundRect, { x, y: 4.5, w: 2.85, h: 1.2, rectRadius: 0.1, fill: { color: '3A302B' }, line: { color: CORAL, width: 1 } })
+  s.addShape(pres.ShapeType.roundRect, { x, y: 4.5, w: 2.85, h: 1.2, rectRadius: 0.1, fill: { color: '2C2C2C' }, line: { color: CORAL, width: 1 } })
   s.addText(r, { x: x + 0.2, y: 4.5, w: 2.45, h: 1.2, valign: 'middle', align: 'center', fontSize: 14, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
 })
 s.addNotes('Repeat the one-liner. This is the takeaway that lets them reason about any collection issue.')
