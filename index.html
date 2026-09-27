@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feastly — Order food you love</title>
+    <meta name="description" content="Feastly: a friendly food-ordering demo for learning Adobe Data Collection → AEP." />
+    <!--
+      Adobe Client Data Layer.
+      The website only pushes interactions here. A Tags (Launch) property reads the
+      data layer and sends events to the Datastream and on to Adobe Experience
+      Platform (AEP). The Tags embed is injected at runtime from src/adobe/loader.js
+      based on the URL you set in the in-app "Adobe Config" panel (⚙, footer),
+      so teammates can point this at their OWN property with no code edits.
+    -->
+    <script>
+      window.adobeDataLayer = window.adobeDataLayer || [];
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
