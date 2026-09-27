@@ -54,26 +54,51 @@ s.addText('🍔', { x: M, y: 1.5, w: 2, h: 1.2, fontSize: 64, isTextBox: true, m
 s.addText('Feastly', { x: M, y: 2.7, w: 9, h: 0.9, fontSize: 30, bold: true, color: GOLD, fontFace: HF, isTextBox: true, margin: 0 })
 s.addText('Understanding Data Collection → AEP', { x: M, y: 3.4, w: 10.5, h: 1.2, fontSize: 44, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
 s.addText('How a website sends streaming events, profile attributes and identity into Adobe Experience Platform — the simple, standard way.', { x: M, y: 4.8, w: 9.5, h: 0.9, fontSize: 16, color: 'CADCFC', fontFace: BF, isTextBox: true, margin: 0 })
-s.addText('A hands-on demo for the AEP Support team', { x: M, y: 6.5, w: 9, h: 0.4, fontSize: 13, italic: true, color: '9B9B9B', fontFace: BF, isTextBox: true, margin: 0 })
+s.addText('Presented by', { x: M, y: 5.7, w: 9, h: 0.3, fontSize: 12, color: '9B9B9B', fontFace: BF, isTextBox: true, margin: 0 })
+s.addText('Prince Parvat', { x: M, y: 5.98, w: 9, h: 0.45, fontSize: 22, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
+s.addText('Technical Product Consultant 3', { x: M, y: 6.46, w: 9, h: 0.35, fontSize: 14, color: GOLD, fontFace: BF, isTextBox: true, margin: 0 })
 s.addNotes('Intro: Feastly is a fake food-ordering site we built purely to show how the Data Collection side works and how data arrives in AEP. Our team lives in AEP; today we look one step upstream.')
 
 // ---------------------------------------------------------------- Slide 2: Why
 s = pres.addSlide(); s.background = { color: WHITE }
-titleBar(s, 'Why this session', 'We know AEP. Today we look one step upstream.')
-const why = [
-  ['🎯', 'The goal', 'See how website data is collected and shaped before it ever reaches AEP.'],
-  ['🧩', 'The gap', 'Support lives in AEP, but most "data is missing" issues start in Data Collection.'],
-  ['🛠️', 'The payoff', 'Know where to look — data layer, rules, data elements, datastream — when data is wrong or absent.'],
-]
-why.forEach((r, i) => {
-  const y = 1.9 + i * 1.55
-  s.addShape(pres.ShapeType.roundRect, { x: M, y, w: W - 2 * M, h: 1.35, rectRadius: 0.08, fill: { color: SOFT }, line: { type: 'none' } })
-  s.addShape(pres.ShapeType.ellipse, { x: M + 0.3, y: y + 0.33, w: 0.7, h: 0.7, fill: { color: CORAL } })
-  s.addText(r[0], { x: M + 0.3, y: y + 0.33, w: 0.7, h: 0.7, align: 'center', valign: 'middle', fontSize: 22, isTextBox: true, margin: 0 })
-  s.addText(r[1], { x: M + 1.3, y: y + 0.2, w: 3.2, h: 0.9, fontSize: 20, bold: true, color: INK, valign: 'middle', fontFace: HF, isTextBox: true, margin: 0 })
-  s.addText(r[2], { x: M + 4.6, y: y + 0.2, w: W - 2 * M - 5.0, h: 0.95, fontSize: 15, color: MUTED, valign: 'middle', fontFace: BF, isTextBox: true, margin: 0 })
-})
-s.addNotes('Frame it as: you already debug AEP; this gives you the vocabulary and the map of the collection side so you can triage faster.')
+titleBar(s, 'Aim of this session', 'Understand the flow — and route cases with confidence')
+s.addText('We are an AEP support team. We do not build or debug a customer’s Data Collection setup — but we must understand how website data reaches AEP so we can investigate, guide the customer, and route the case to the right team.', { x: M, y: 1.5, w: W - 2 * M, h: 0.7, fontSize: 14, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+
+const cw2 = (W - 2 * M - 0.4) / 2
+const leftX = M, rightX = M + cw2 + 0.4, cardY = 2.35, cardH = 3.5
+// Left card — what you can reason about
+s.addShape(pres.ShapeType.roundRect, { x: leftX, y: cardY, w: cw2, h: cardH, rectRadius: 0.09, fill: { color: 'F7F7F7' }, line: { type: 'none' } })
+s.addShape(pres.ShapeType.ellipse, { x: leftX + 0.3, y: cardY + 0.3, w: 0.5, h: 0.5, fill: { color: GREEN } })
+s.addText('🔎', { x: leftX + 0.3, y: cardY + 0.3, w: 0.5, h: 0.5, align: 'center', valign: 'middle', fontSize: 18, isTextBox: true, margin: 0 })
+s.addText('What you’ll be able to reason about', { x: leftX + 0.95, y: cardY + 0.32, w: cw2 - 1.2, h: 0.5, fontSize: 15.5, bold: true, color: INK, valign: 'middle', fontFace: HF, isTextBox: true, margin: 0 })
+s.addText([
+  { text: 'Web SDK: a hit is missing, or some data isn’t ingested', options: { bullet: true, breakLine: true } },
+  { text: 'Mobile SDK: how the data flows in', options: { bullet: true, breakLine: true } },
+  { text: 'Using Adobe Assurance to trace an event', options: { bullet: true, breakLine: true } },
+  { text: 'Reading a failed batch / ingestion error', options: { bullet: true, breakLine: true } },
+  { text: 'Guiding the customer to the right next step', options: { bullet: true, breakLine: true } },
+  { text: 'Deciding who owns it: us, Data Collection, or Analytics', options: { bullet: true, breakLine: false } },
+], { x: leftX + 0.4, y: cardY + 1.0, w: cw2 - 0.8, h: cardH - 1.2, fontSize: 13, color: INK, paraSpaceAfter: 7, fontFace: BF, isTextBox: true, margin: 0 })
+
+// Right card — what this project gives you
+s.addShape(pres.ShapeType.roundRect, { x: rightX, y: cardY, w: cw2, h: cardH, rectRadius: 0.09, fill: { color: 'F7F7F7' }, line: { type: 'none' } })
+s.addShape(pres.ShapeType.ellipse, { x: rightX + 0.3, y: cardY + 0.3, w: 0.5, h: 0.5, fill: { color: BLUE } })
+s.addText('🎁', { x: rightX + 0.3, y: cardY + 0.3, w: 0.5, h: 0.5, align: 'center', valign: 'middle', fontSize: 18, isTextBox: true, margin: 0 })
+s.addText('What this project gives you', { x: rightX + 0.95, y: cardY + 0.32, w: cw2 - 1.2, h: 0.5, fontSize: 15.5, bold: true, color: INK, valign: 'middle', fontFace: HF, isTextBox: true, margin: 0 })
+s.addText([
+  { text: 'Set up Data Collection hands-on (schema, datastream, rules)', options: { bullet: true, breakLine: true } },
+  { text: 'Send streaming data into a real-time AEP profile', options: { bullet: true, breakLine: true } },
+  { text: 'See website data ingested into AEP (and other stores)', options: { bullet: true, breakLine: true } },
+  { text: 'A practical, end-to-end mental model of the pipeline', options: { bullet: true, breakLine: true } },
+  { text: 'Confidence to investigate and route a case correctly', options: { bullet: true, breakLine: false } },
+], { x: rightX + 0.4, y: cardY + 1.0, w: cw2 - 0.8, h: cardH - 1.2, fontSize: 13, color: INK, paraSpaceAfter: 7, fontFace: BF, isTextBox: true, margin: 0 })
+
+// Scope note
+s.addText([
+  { text: 'Scope:  ', options: { bold: true, color: CORAL_DK } },
+  { text: 'debugging a customer’s Data Collection implementation sits with the Data Collection / Analytics team. Our job is to understand the flow and route the case to the right owner.', options: { color: MUTED } },
+], { x: M, y: 6.15, w: W - 2 * M, h: 0.6, fontSize: 12.5, fontFace: BF, isTextBox: true, margin: 0 })
+s.addNotes('Reframe: this is NOT about us debugging Data Collection. It is about understanding how data reaches AEP so we can investigate, guide the customer, and decide the right owning team (us / Data Collection / Analytics). The scenarios on the left are exactly the judgement calls we make.')
 
 // ---------------------------------------------------------------- Slide 3: Big picture flow
 s = pres.addSlide(); s.background = { color: WHITE }
@@ -406,6 +431,16 @@ s.addText('github.com/princeparvat80/aep-data-collection-food-demo', { x: M + 0.
 s.addText('Run:  npm install  →  npm run dev  →  http://localhost:5175', { x: M, y: 5.35, w: 10, h: 0.4, fontSize: 14, italic: true, color: INK, fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('Questions? Let\'s open the console and trace an event together.', { x: M, y: 6.5, w: 11, h: 0.4, fontSize: 13, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 s.addNotes('End by inviting them to clone and try; offer to pair on wiring it to a sandbox.')
+
+// ---- Footer + slide number on every slide (matches the Adobe template) ----
+const darkIdx = new Set([0, 4, 10, 16, 21]) // title, foundations divider, datastream, identity, recap
+pres.slides.forEach((sl, i) => {
+  const col = darkIdx.has(i) ? '8A8A8A' : 'A3A3A3'
+  sl.addText('© 2026 Adobe. All Rights Reserved. Adobe Confidential.',
+    { x: 0.5, y: 7.08, w: 9.5, h: 0.3, fontSize: 9, color: col, fontFace: BF, isTextBox: true, margin: 0 })
+  sl.addText(String(i + 1),
+    { x: 12.2, y: 7.08, w: 0.7, h: 0.3, align: 'right', fontSize: 9, color: col, fontFace: BF, isTextBox: true, margin: 0 })
+})
 
 await pres.writeFile({ fileName: 'C:/Users/princekumar/Documents/Projects/aep-data-collection-food-demo/presentation/Feastly-DataCollection-to-AEP.pptx' })
 console.log('deck written')
