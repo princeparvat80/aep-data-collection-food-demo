@@ -54,7 +54,7 @@ export default function AdobeConfigPanel({ open, onClose }) {
           <button className="btn btn-outline" onClick={reset}>Reset</button>
         </div>
         <p style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 14 }}>
-          Get the embed URL from <b>Data Collection > Tags > your property > Environments</b>.
+          Get the embed URL from <b>Data Collection - Tags - your property - Environments</b>.
           Only the embed URL is required; the rest are shown in the UI for your reference.
         </p>
       </div>

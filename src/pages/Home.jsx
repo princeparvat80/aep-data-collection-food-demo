@@ -15,7 +15,7 @@ export default function Home() {
         <div className="container">
           <h1>Delicious food, delivered fast 🍕</h1>
           <p>Order from your favourite kitchens and track it to your door. Fresh, hot and on time.</p>
-          <button className="btn btn-primary" onClick={() => navigate('/menu')}>Browse the menu ></button>
+          <button className="btn btn-primary" onClick={() => navigate('/menu')}>Browse the menu</button>
           <div className="hero-badges">
             <span>⚡ 30-min delivery</span>
             <span>⭐ 4.8 avg rating</span>

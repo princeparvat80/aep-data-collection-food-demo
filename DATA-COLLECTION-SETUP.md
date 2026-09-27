@@ -1,11 +1,11 @@
 # Feastly — Adobe Data Collection Setup (step by step)
 
 The simplest, most common setup: **Tags (Launch) property + Web SDK + Adobe
-Client Data Layer**, sending to a **Datastream → AEP**.
+Client Data Layer**, sending to a **Datastream > AEP**.
 
 ```
-Website → adobeDataLayer → Tags (ACDL + rules + data elements + Web SDK)
-        → Datastream → AEP (event dataset, Profile-enabled)
+Website > adobeDataLayer > Tags (ACDL + rules + data elements + Web SDK)
+        > Datastream > AEP (event dataset, Profile-enabled)
 ```
 
 ---
@@ -13,20 +13,20 @@ Website → adobeDataLayer → Tags (ACDL + rules + data elements + Web SDK)
 ## Step 1 — Schema & dataset (AEP)
 1. Create schema **`Feastly Order Event`** (see [SCHEMA.md](SCHEMA.md)).
 2. Mark **Email** as an identity (namespace: Email).
-3. Create dataset **`Feastly Order Event Dataset`** → **enable for Profile**.
+3. Create dataset **`Feastly Order Event Dataset`** > **enable for Profile**.
 
 ## Step 2 — Datastream
-1. Data Collection → **Datastreams → New** → `Feastly Web SDK`.
-2. Add the **Adobe Experience Platform** service → select the dataset above.
+1. Data Collection > **Datastreams > New** > `Feastly Web SDK`.
+2. Add the **Adobe Experience Platform** service > select the dataset above.
 3. Copy the **Datastream ID**.
 
 ## Step 3 — Tag (Launch) property
-1. Data Collection → **Tags → New Property** (Web) → `Feastly Web`.
+1. Data Collection > **Tags > New Property** (Web) > `Feastly Web`.
 2. **Extensions:**
    - **Adobe Experience Platform Web SDK** — set the **datastream** (per env) + **Org ID**.
    - **Adobe Client Data Layer**.
 
-### Data Elements (Adobe Client Data Layer → *Computed State*, one per path)
+### Data Elements (Adobe Client Data Layer > *Computed State*, one per path)
 | Name | Path |
 |---|---|
 | `Feastly - page name` | `page.name` |
@@ -74,8 +74,8 @@ return map; // ECID is added automatically by the Web SDK
 | `_yourtenant.rating` | `%Feastly - rating%` |
 
 ### Rules (one per event)
-Event = **Adobe Client Data Layer → Data Pushed → Specific Event** (`Event/Key to
-register for` = the data-layer name). Action = **Web SDK → Send event** with
+Event = **Adobe Client Data Layer > Data Pushed > Specific Event** (`Event/Key to
+register for` = the data-layer name). Action = **Web SDK > Send event** with
 **Type** = the XDM eventType, **XDM** = `%Feastly - XDM%`.
 
 | Rule | Listen for | Type (eventType) |
@@ -98,14 +98,14 @@ register for` = the data-layer name). Action = **Web SDK → Send event** with
 > the dotted XDM eventType.
 
 ## Step 4 — Publish & connect the site
-1. **Publishing Flow** → add all resources → **Build** to Development.
+1. **Publishing Flow** > add all resources > **Build** to Development.
 2. Copy the **Development environment embed URL**.
-3. In Feastly, click **⚙️ Adobe Config** (footer) → paste the embed URL → **Save & reload**.
+3. In Feastly, click **⚙️ Adobe Config** (footer) > paste the embed URL > **Save & reload**.
 
 ## Step 5 — Validate & troubleshoot (support playbook)
 1. **Console:** `[Feastly][dataLayer] <event>` on every action.
-2. **Assurance:** ACDL event → rule fired → Web SDK `sendEvent` → Edge 200.
-3. **AEP:** Dataset → *Preview*; **Profile → Browse/Lookup** by Email or ECID to
+2. **Assurance:** ACDL event > rule fired > Web SDK `sendEvent` > Edge 200.
+3. **AEP:** Dataset > *Preview*; **Profile > Browse/Lookup** by Email or ECID to
    see event history + **identity graph** (ECID ↔ Email stitching).
 4. **Common issues to teach:** rule not firing (wrong listen-for value), empty XDM
    (data element path typo), identity not stitching (Email not marked as identity),
