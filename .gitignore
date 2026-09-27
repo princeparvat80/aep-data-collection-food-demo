@@ -7,3 +7,6 @@ dist-ssr
 .DS_Store
 *.log
 .vite
+
+# Office temp/lock files
+~$*

@@ -34,6 +34,49 @@ function shot(slide, x, y, w, h, label) {
   slide.addText(label, { x: x + 0.3, y: y + h / 2 - 0.1, w: w - 0.6, h: 0.7, align: 'center', fontSize: 12, italic: true, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 }
 
+// place a real screenshot inside a box, preserving its aspect ratio (contain fit),
+// centered, sitting on a subtle white card with a soft shadow so it reads as a framed
+// image rather than a raw paste. ratio is the image's width / height in pixels.
+function imgFit(slide, bx, by, bw, bh, path, ratio) {
+  let w = bw, h = w / ratio
+  if (h > bh) { h = bh; w = h * ratio }
+  const x = bx + (bw - w) / 2
+  const y = by + (bh - h) / 2
+  slide.addShape(pres.ShapeType.roundRect, {
+    x: x - 0.07, y: y - 0.07, w: w + 0.14, h: h + 0.14, rectRadius: 0.06,
+    fill: { color: WHITE }, line: { color: LINE, width: 1 },
+    shadow: { type: 'outer', color: '8A8A8A', blur: 7, offset: 3, angle: 90, opacity: 0.4 },
+  })
+  slide.addImage({ path, x, y, w, h })
+}
+
+// a slide that is mostly one large screenshot with a title and optional subtitle
+function fullShotSlide(kicker, title, subtitle, imgInfo, note) {
+  const sl = pres.addSlide(); sl.background = { color: WHITE }
+  titleBar(sl, kicker, title)
+  let top = 1.75
+  if (subtitle) {
+    sl.addText(subtitle, { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 14, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+    top = 2.1
+  }
+  imgFit(sl, M, top, W - 2 * M, H - top - 0.45, imgInfo.path, imgInfo.ratio)
+  if (note) sl.addNotes(note)
+  return sl
+}
+
+// a slide with two labelled screenshots side by side
+function twoShotSlide(kicker, title, left, right, note) {
+  const sl = pres.addSlide(); sl.background = { color: WHITE }
+  titleBar(sl, kicker, title)
+  const cols = [{ x: M, w: 5.7, ...left }, { x: 7.0, w: W - M - 7.0, ...right }]
+  cols.forEach((c) => {
+    sl.addText(c.label, { x: c.x, y: 1.7, w: c.w, h: 0.4, fontSize: 15, bold: true, color: CORAL, fontFace: BF, isTextBox: true, margin: 0 })
+    imgFit(sl, c.x, 2.2, c.w, 4.5, c.path, c.ratio)
+  })
+  if (note) sl.addNotes(note)
+  return sl
+}
+
 // circled step/number badge
 function badge(slide, x, y, txt, d = 0.55, bg = CORAL, fg = WHITE) {
   slide.addShape(pres.ShapeType.ellipse, { x, y, w: d, h: d, fill: { color: bg } })
@@ -267,7 +310,7 @@ p6.addText('Feastly enables only AEP — but the same event could feed all three
 p6.addNotes('Key idea: one call to the Edge, fanned out server-side by the datastream. Add/remove destinations without code changes.')
 
 // -------------------------------------------------- reusable "component" slide with screenshot
-function componentSlide(kicker, title, bullets, shotLabel) {
+function componentSlide(kicker, title, bullets, shotLabel, imgInfo) {
   const sl = pres.addSlide(); sl.background = { color: WHITE }
   titleBar(sl, kicker, title)
   bullets.forEach((b, i) => {
@@ -276,7 +319,9 @@ function componentSlide(kicker, title, bullets, shotLabel) {
     sl.addText(b[0], { x: M + 0.7, y: y - 0.04, w: 4.6, h: 0.4, fontSize: 15.5, bold: true, color: INK, fontFace: BF, isTextBox: true, margin: 0 })
     sl.addText(b[1], { x: M + 0.7, y: y + 0.32, w: 4.7, h: 0.55, fontSize: 12.5, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
   })
-  shot(sl, 6.5, 1.85, W - M - 6.5, 4.9, shotLabel)
+  const bx = 6.5, by = 1.85, bw = W - M - 6.5, bh = 4.9
+  if (imgInfo) imgFit(sl, bx, by, bw, bh, imgInfo.path, imgInfo.ratio)
+  else shot(sl, bx, by, bw, bh, shotLabel)
   return sl
 }
 
@@ -286,7 +331,7 @@ componentSlide('Component 1 · AEP', 'XDM Schema — the shape of the data',
    ['Field groups', 'Web SDK EE + Commerce + custom "Feastly Details".'],
    ['Identity: Email', 'Marked as an identity so AEP can stitch people.'],
    ['Dataset > Profile', 'Enabled for Profile so events build real-time profiles.']],
-  'Schema "Feastly Order Event" — show the field tree (_yourtenant.food / attributes / rating, commerce, identityMap).'
+  '', { path: 'screenshots/schema.png', ratio: 1.1366 }
 ).addNotes('Schema = the contract. If a field is not in the schema, it will not land. Show the custom field group and the Email identity.')
 
 // Slide 6: Datastream
@@ -295,8 +340,8 @@ componentSlide('Component 2 · Data Collection', 'Datastream — the routing swi
    ['Adobe Experience Platform service', 'Added and pointed at the Feastly dataset.'],
    ['Datastream ID', 'The Web SDK sends to this ID at the Edge.'],
    ['Extensible', 'Same event can also go to Analytics, Target, etc.']],
-  'Datastream "Feastly Web SDK" — show the AEP service added + the Datastream ID.'
-).addNotes('The datastream is where data is routed server-side. Support tip: "data not in AEP" often = AEP service missing here, or wrong dataset.')
+  '', { path: 'screenshots/datastream.png', ratio: 1.7105 }
+).addNotes('The datastream is where data is routed server-side. Support tip: "data not in AEP" often = AEP service missing here, or wrong dataset. Note Profile enabled: Yes on the event dataset.')
 
 // Slide 7: Tag property + extensions
 componentSlide('Component 3 · Data Collection', 'Tag (Launch) property + extensions',
@@ -304,8 +349,17 @@ componentSlide('Component 3 · Data Collection', 'Tag (Launch) property + extens
    ['AEP Web SDK extension', 'Configured with the datastream + Org ID.'],
    ['Adobe Client Data Layer', 'Listens to adobeDataLayer pushes.'],
    ['Publish > embed', 'Build a library, embed the script on the site.']],
-  'Tags property "Feastly Web" — show Extensions (Web SDK + Client Data Layer) installed.'
+  '', { path: 'screenshots/extensions.png', ratio: 2.1792 }
 ).addNotes('The property holds extensions, data elements and rules. The embed script is what the site loads (via our Adobe Config panel).')
+
+// Slide 7b: Web SDK extension configured (screenshot)
+componentSlide('Component 3 · Data Collection', 'Web SDK extension — configured',
+  [['Instance "alloy"', 'Must match the SDK instance name used on the site.'],
+   ['IMS Org ID', 'Your Experience Cloud org, so events are attributed to you.'],
+   ['Edge domain', 'edge.adobedc.net — the Adobe endpoint events are sent to.'],
+   ['Datastream', 'Chosen from the list; this links the property to the datastream.']],
+  '', { path: 'screenshots/websdk-config.png', ratio: 1.5091 }
+).addNotes('This is where the property meets AEP: the Org ID and the datastream. Get either wrong and events either never leave or land in the wrong place.')
 
 // Slide 8: Data Elements
 s = pres.addSlide(); s.background = { color: WHITE }
@@ -318,9 +372,14 @@ de.forEach((d, i) => {
   s.addShape(pres.ShapeType.roundRect, { x, y, w: 2.85, h: 0.75, rectRadius: 0.09, fill: { color: SOFT }, line: { type: 'none' } })
   s.addText(d, { x: x + 0.2, y, w: 2.5, h: 0.75, valign: 'middle', fontSize: 13.5, bold: true, color: INK, fontFace: BF, isTextBox: true, margin: 0 })
 })
-shot(s, M, 5.25, W - 2 * M, 1.55, 'Data Elements list in Tags — show the 11 "Feastly - ..." elements.')
-s.addText('* Custom Code   ** XDM Object (builds the final payload)', { x: M, y: 5.0, w: W - 2 * M, h: 0.3, fontSize: 11, italic: true, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+s.addText('* Custom Code   ** XDM Object (builds the final payload)', { x: M, y: 5.15, w: W - 2 * M, h: 0.3, fontSize: 11, italic: true, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 s.addNotes('Analogy: data elements are like variables; rules are the functions that use them. 8 read the data layer, 2 are custom code (products array, identity), 1 assembles the XDM.')
+
+// Slide 8b: Data Elements in the property (screenshot)
+fullShotSlide('The building blocks', 'Data Elements in the property',
+  'Each "Feastly - ..." element reads one path from the data layer. Here "Feastly - commerce" returns the merged commerce object.',
+  { path: 'screenshots/data-elements.png', ratio: 2.0754 },
+  'Point out the naming convention and that the right panel is a Data Layer Computed State element reading the "commerce" path.')
 
 // Slide 9: Rules
 s = pres.addSlide(); s.background = { color: WHITE }
@@ -334,8 +393,19 @@ rules.forEach((r, i) => {
   badge(s, x + 0.12, y + 0.1, i + 1, 0.35, GOLD, INK)
   s.addText(r, { x: x + 0.58, y, w: 2.2, h: 0.55, valign: 'middle', fontSize: 12.5, bold: true, color: INK, fontFace: BF, isTextBox: true, margin: 0 })
 })
-shot(s, M, 5.15, W - 2 * M, 1.7, 'A single rule (e.g. "Feastly - Purchase") — show its Event (listen for "purchase") + Action (Send event, type commerce.purchases).')
 s.addNotes('Key teaching point: the Event LISTENS for the camelCase data-layer name; the Action TYPE is the dotted XDM eventType. Mixing these up is the #1 "rule not firing" bug.')
+
+// Slide 9b: Rules in the property (screenshot)
+fullShotSlide('The building blocks', 'Rules in the property',
+  'One rule per user action. Each rule listens for a data-layer event, then sends the event to the Edge.',
+  { path: 'screenshots/rules-list.png', ratio: 1.9649 },
+  'The "Feastly - Page View" rule is open: its event is Data Layer - pageView, and its only action is Send event.')
+
+// Slide 9c: inside a rule (event + action)
+twoShotSlide('The building blocks', 'Inside a rule: it listens, then it sends',
+  { label: 'The EVENT — listens', path: 'screenshots/rule-event.png', ratio: 1.2854 },
+  { label: 'The ACTION — sends the XDM', path: 'screenshots/rule-action-xdm.png', ratio: 2.2345 },
+  'Left: the ACDL "Data Pushed" event listens for the specific key "pageView". Right: the Send event action sets the eventType and sends the "Feastly - XDM" data element as the payload. This event-then-action split is the whole model.')
 
 // Slide 10: Identity & Profile (diagram)
 s = pres.addSlide(); s.background = { color: INK }
@@ -362,8 +432,8 @@ s.addNotes('Before sign-in the person is only an ECID. After sign-in the Email j
 s = pres.addSlide(); s.background = { color: WHITE }
 titleBar(s, 'See it live', 'Every action becomes an event')
 s.addText('Browse > add to cart > checkout > purchase > rate. Each click pushes a clean event to the data layer, which the console prints.', { x: M, y: 1.55, w: W - 2 * M, h: 0.5, fontSize: 14, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
-shot(s, M, 2.2, 5.9, 4.6, 'Feastly site — the home/menu page (the running website).')
-shot(s, 6.8, 2.2, W - M - 6.8, 4.6, 'Browser console — the "[Feastly][dataLayer] purchase" log with the payload expanded.')
+imgFit(s, M, 2.2, 5.9, 4.6, 'screenshots/site-home.png', 2.0224)
+imgFit(s, 6.8, 2.2, W - M - 6.8, 4.6, 'screenshots/console.png', 2.1448)
 s.addNotes('Open DevTools console live if you can. Show a purchase and expand the object so they see commerce.order, productListItems, identityMap and the attributes.')
 
 // Slide 12: Assurance
@@ -375,14 +445,26 @@ componentSlide('Validate', 'Adobe Assurance — watch it flow',
   'Assurance — the event list with a "purchase" selected, showing the XDM payload + Edge 200.'
 ).addNotes('Assurance is the bridge between the browser and AEP. If it looks good here but not in AEP, the issue is datastream/dataset config, not collection.')
 
-// Slide 13: Verify in AEP
-componentSlide('Verify', 'Confirm the data in AEP',
-  [['Dataset > Preview', 'See rows arriving in the Feastly dataset.'],
-   ['Monitoring', 'Batch/streaming ingestion success or failures.'],
-   ['Profile > Lookup', 'Find the person by Email or ECID.'],
-   ['Identity graph', 'See ECID ↔ Email linked; events + attributes.']],
-  'AEP — Profile lookup showing attributes + event timeline (and the identity graph tab).'
-).addNotes('This is home turf for the team. Tie it back: the fields they see here are exactly the ones defined in the schema and populated by the rules.')
+// Slide 13: Verify in AEP - ingestion monitoring
+componentSlide('Verify', 'Confirm ingestion in AEP',
+  [['Streaming end-to-end', 'Watch records arrive in near real time.'],
+   ['Feastly Order Event Dataset', '157 records ingested through Adobe Data Collection.'],
+   ['Zero failed / skipped', 'A healthy pipeline from Edge to Profile.'],
+   ['Next: the profile', 'Those events become a real customer profile.']],
+  '', { path: 'screenshots/monitoring.png', ratio: 2.6375 }
+).addNotes('This is home turf for the team. Monitoring > Streaming end-to-end shows the dataset receiving records with 0 failures. Support tip: if records fail here, the fix is schema/mapping, not the website.')
+
+// Slide 13b: the stitched profile
+fullShotSlide('Verify', 'The result: one stitched profile',
+  'Looking up prince@foodie.com returns a single profile whose Linked identities include the email and both ECIDs (anonymous + signed-in).',
+  { path: 'screenshots/profile.png', ratio: 2.1501 },
+  'This is the payoff. The anonymous browsing (ECID) and the signed-in activity (Email) collapsed into one profile once they co-occurred in an event.')
+
+// Slide 13c: the identity graph
+fullShotSlide('Verify', 'The identity graph, live',
+  'The graph viewer shows the email linked to two ECIDs, sourced from the Feastly Order Event Dataset.',
+  { path: 'screenshots/identity-graph.png', ratio: 2.2395 },
+  'Tie it to the earlier diagram: this is that stitch, in the real tool. Each link records the data source and time it was established.')
 
 // Slide 14: Troubleshooting playbook
 s = pres.addSlide(); s.background = { color: WHITE }
