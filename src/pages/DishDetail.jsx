@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { findDish } from '../data/menu'
 import { useCart } from '../CartContext.jsx'
-import { trackDishView } from '../adobe/track'
+import { trackPageView, trackDishView } from '../adobe/track'
 
 export default function DishDetail() {
   const { id } = useParams()
@@ -11,7 +11,8 @@ export default function DishDetail() {
   const { add } = useCart()
   const [qty, setQty] = useState(1)
 
-  useEffect(() => { if (dish) trackDishView(dish) }, [id])
+  // A product-detail page fires both a page view and a product view (real-world).
+  useEffect(() => { if (dish) { trackPageView('dish-detail'); trackDishView(dish) } }, [id])
 
   if (!dish) return (
     <div className="container section"><h2>Dish not found</h2>

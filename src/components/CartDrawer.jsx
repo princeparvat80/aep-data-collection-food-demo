@@ -4,7 +4,7 @@ import { useCart } from '../CartContext.jsx'
 import { trackCartView } from '../adobe/track'
 
 export default function CartDrawer({ open, onClose }) {
-  const { items, setQty, remove, total } = useCart()
+  const { items, add, decrement, remove, total } = useCart()
   const navigate = useNavigate()
   // Fire a cartView event whenever the drawer is opened with items in it.
   useEffect(() => { if (open) trackCartView(items) }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -29,9 +29,9 @@ export default function CartDrawer({ open, onClose }) {
                 <div style={{ color: 'var(--muted)', fontSize: 13 }}>${dish.price.toFixed(2)}</div>
               </div>
               <div className="qty">
-                <button onClick={() => setQty(dish, qty - 1)}>−</button>
+                <button onClick={() => decrement(dish)}>−</button>
                 {qty}
-                <button onClick={() => setQty(dish, qty + 1)}>+</button>
+                <button onClick={() => add(dish, 1)}>+</button>
               </div>
               <button className="modal-close" style={{ position: 'static', fontSize: 20 }} onClick={() => remove(dish)}>×</button>
             </div>

@@ -21,6 +21,16 @@ export function CartProvider({ children }) {
     trackRemoveFromCart(dish)
   }, [])
 
+  // Decrease quantity by 1. Real-world: lowering cart qty = a remove-from-cart.
+  const decrement = useCallback((dish) => {
+    setItems((prev) => {
+      const found = prev.find((i) => i.dish.id === dish.id)
+      if (found && found.qty > 1) return prev.map((i) => i.dish.id === dish.id ? { ...i, qty: i.qty - 1 } : i)
+      return prev.filter((i) => i.dish.id !== dish.id) // qty hits 0 -> remove line
+    })
+    trackRemoveFromCart(dish, 1)
+  }, [])
+
   const setQty = useCallback((dish, qty) => {
     if (qty <= 0) { remove(dish); return }
     setItems((prev) => prev.map((i) => i.dish.id === dish.id ? { ...i, qty } : i))
@@ -32,7 +42,7 @@ export function CartProvider({ children }) {
   const total = +items.reduce((s, i) => s + i.dish.price * i.qty, 0).toFixed(2)
 
   return (
-    <CartContext.Provider value={{ items, add, remove, setQty, clear, count, total }}>
+    <CartContext.Provider value={{ items, add, remove, setQty, decrement, clear, count, total }}>
       {children}
     </CartContext.Provider>
   )
