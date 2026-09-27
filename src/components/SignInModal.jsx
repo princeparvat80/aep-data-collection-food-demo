@@ -17,6 +17,10 @@ export default function SignInModal({ open, onClose, onDone }) {
 
   const submit = (e) => {
     e.preventDefault()
+    // signIn stores the user locally so future events carry the email identity.
+    // Then we push either a signup or a login event to the data layer. This is the
+    // moment the visitor becomes known, so from here on the email is added to the
+    // identity map and Adobe can stitch it to the earlier anonymous activity.
     const user = signIn(form)
     if (mode === 'signup') trackSignup(user)
     else trackLogin(user)

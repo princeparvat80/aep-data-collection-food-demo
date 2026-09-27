@@ -15,6 +15,8 @@ export default function Checkout() {
     address: '', paymentMethod: 'credit-card',
   })
 
+  // Data layer: opening the checkout page pushes a checkout event, which sets
+  // commerce.checkouts and the list of items in the cart.
   useEffect(() => {
     if (items.length) trackCheckout(items)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,6 +39,10 @@ export default function Checkout() {
       items: items.map((i) => ({ id: i.dish.id, name: i.dish.name, category: i.dish.category,
         cuisine: i.dish.cuisine, price: i.dish.price, quantity: i.qty, priceTotal: +(i.dish.price * i.qty).toFixed(2) })),
     }
+    // Data layer: placing the order pushes a purchase event. This is the most
+    // important event of the funnel. It sets commerce.purchases, the order id and
+    // revenue, and the full list of purchased items, which become the order and
+    // revenue metrics in Adobe.
     trackPurchase(order)
     clear()
     navigate('/confirmation', { state: { order, name: form.name } })

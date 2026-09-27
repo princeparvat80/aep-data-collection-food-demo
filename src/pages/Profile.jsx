@@ -9,6 +9,7 @@ export default function Profile() {
   const [form, setForm] = useState(user || {})
   const [saved, setSaved] = useState(false)
 
+  // Data layer: opening the account page pushes a pageView named "profile".
   useEffect(() => { trackPageView('profile') }, [])
   useEffect(() => { if (!getUser()) navigate('/') }, [])
 
@@ -19,6 +20,10 @@ export default function Profile() {
     e.preventDefault()
     const next = updateProfile(form)
     setUser(next)
+    // Data layer: saving preferences pushes a profileUpdate event carrying the new
+    // attribute values (loyalty tier, dietary preference, city and so on). These
+    // are the streaming profile attributes that build the AEP profile. If the
+    // marketing consent was part of the form we also push a newsletterSignup event.
     trackProfileUpdate(next)
     if ('marketingConsent' in form) trackNewsletter({ email: next.email, consent: next.marketingConsent })
     setSaved(true); setTimeout(() => setSaved(false), 2500)

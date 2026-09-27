@@ -11,7 +11,10 @@ export default function DishDetail() {
   const { add } = useCart()
   const [qty, setQty] = useState(1)
 
-  // A product-detail page fires both a page view and a product view (real-world).
+  // Data layer: a product detail page reports two things, which matches how real
+  // commerce sites work. First a pageView with the name "dish-detail" for the page
+  // view itself, then a dishView which sets commerce.productViews and the product
+  // details so Adobe records a product view for this dish.
   useEffect(() => { if (dish) { trackPageView('dish-detail'); trackDishView(dish) } }, [id])
 
   if (!dish) return (

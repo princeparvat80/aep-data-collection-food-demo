@@ -28,6 +28,8 @@ export default function CartDrawer({ open, onClose }) {
                 <div style={{ fontWeight: 700 }}>{dish.name}</div>
                 <div style={{ color: 'var(--muted)', fontSize: 13 }}>${dish.price.toFixed(2)}</div>
               </div>
+              {/* Changing quantity here reports a real commerce event: plus pushes
+                  addToCart, minus pushes removeFromCart (see CartContext). */}
               <div className="qty">
                 <button onClick={() => decrement(dish)}>−</button>
                 {qty}

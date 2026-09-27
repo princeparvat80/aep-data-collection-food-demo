@@ -14,6 +14,8 @@ export default function Header() {
   const [user, setUser] = useState(getUser())
   useEffect(() => onUserChange(setUser), [])
 
+  // Data layer: signing out pushes a logout event, then clears the stored user so
+  // later events go back to being anonymous.
   const doSignOut = () => { trackLogout(); signOut() }
 
   return (

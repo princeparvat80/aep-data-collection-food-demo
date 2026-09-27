@@ -6,6 +6,9 @@ import { trackPageView } from '../adobe/track'
 
 export default function Home() {
   const navigate = useNavigate()
+  // Data layer: when the home page loads we push a pageView event with the page
+  // name "home". This becomes a page view in Adobe. Adding a dish from a card
+  // fires addToCart from inside DishCard.
   useEffect(() => { trackPageView('home') }, [])
   const popular = [...dishes].sort((a, b) => b.rating - a.rating).slice(0, 8)
 

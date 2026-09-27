@@ -10,8 +10,10 @@ export default function Menu() {
   const [category, setCategory] = useState(initialCat)
   const [term, setTerm] = useState('')
 
-  // viewMenu is the menu page-view (it maps to web.webpagedetails.pageViews and
-  // also carries the category) — so we don't fire a separate pageView here.
+  // Data layer: viewMenu is the menu page view. It is mapped to a page view in
+  // Adobe and also carries the selected category, so we do not push a separate
+  // pageView here (that would double count the page). It runs again whenever the
+  // visitor switches category.
   useEffect(() => { trackViewMenu(category) }, [category])
 
   const filtered = useMemo(() => {
@@ -27,6 +29,9 @@ export default function Menu() {
   const onSearch = (e) => {
     const v = e.target.value
     setTerm(v)
+    // Data layer: push a search event with the term, the current category and how
+    // many results matched. We wait until three characters are typed so we do not
+    // send a search on every single keystroke.
     if (v.trim().length > 2) trackSearch({ term: v, resultsCount: filtered.length, category })
   }
 

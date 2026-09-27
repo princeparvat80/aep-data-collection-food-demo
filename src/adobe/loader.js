@@ -1,11 +1,12 @@
-// ---------------------------------------------------------------------------
-// Tags (Launch) embed loader
-// ---------------------------------------------------------------------------
-// Injects the Adobe Tags embed script at runtime based on the configured URL.
-// This is what makes the demo reusable: whatever Tags environment URL you set in
-// the Adobe Config panel gets loaded here, so the site talks to YOUR property,
-// datastream and sandbox — no rebuild required.
-// ---------------------------------------------------------------------------
+// Tags (Launch) embed loader.
+//
+// This adds the Adobe Tags script tag to the page at runtime, using whatever
+// embed URL is configured (see config.js and the Adobe Config panel). Loading it
+// this way is what makes the demo reusable. A teammate can point the site at
+// their own Tags property, datastream and sandbox just by pasting a different
+// embed URL, without changing or rebuilding any code. If no URL is configured the
+// site still runs and logs every event to the console, it just does not send
+// anything to Adobe.
 
 import { getConfig } from './config'
 

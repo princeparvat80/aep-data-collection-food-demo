@@ -1,3 +1,11 @@
+// Shopping cart state for the whole app, shared through React context.
+//
+// This is normal React state, but it is also where several data layer events
+// originate. Adding an item calls trackAddToCart, and lowering the quantity or
+// removing a line calls trackRemoveFromCart, which mirrors how a real commerce
+// site records cart changes. Keeping the tracking here means every place that
+// changes the cart reports the same event, so we never miss one.
+
 import { createContext, useContext, useState, useCallback } from 'react'
 import { trackAddToCart, trackRemoveFromCart } from './adobe/track'
 

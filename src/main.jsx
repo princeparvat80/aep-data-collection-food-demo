@@ -5,8 +5,10 @@ import App from './App.jsx'
 import './index.css'
 import { loadTags } from './adobe/loader'
 
-// Load the Adobe Tags (Launch) library from the configured embed URL (if any).
-// No StrictMode: it double-invokes effects in dev and would double-fire events.
+// Application entry point. Before React renders, we load the Adobe Tags (Launch)
+// library from the configured embed URL so the data layer listeners are ready.
+// React StrictMode is deliberately left out here. In development it runs effects
+// twice, which would make every tracking event fire twice.
 loadTags()
 
 ReactDOM.createRoot(document.getElementById('root')).render(

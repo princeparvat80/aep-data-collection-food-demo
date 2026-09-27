@@ -6,6 +6,8 @@ export default function Confirmation() {
   const { state } = useLocation()
   const navigate = useNavigate()
   const [rated, setRated] = useState(0)
+  // Data layer: the confirmation page pushes a pageView named "order-confirmation".
+  // The purchase event itself was already sent on the checkout page.
   useEffect(() => { trackPageView('order-confirmation') }, [])
 
   if (!state?.order) return (
@@ -14,6 +16,8 @@ export default function Confirmation() {
   )
 
   const { order, name } = state
+  // Data layer: choosing a star rating pushes an orderRating event with the order
+  // id and the number of stars.
   const rate = (stars) => { setRated(stars); trackOrderRating({ orderId: order.id, stars }) }
 
   return (

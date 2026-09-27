@@ -1,10 +1,10 @@
-// ---------------------------------------------------------------------------
-// Runtime Adobe configuration
-// ---------------------------------------------------------------------------
-// Teammates can point this demo at THEIR OWN Adobe setup with no code edits, via
-// the in-app "Adobe Config" panel (gear icon in the footer). Values are saved in
-// localStorage. Optional build-time defaults can be set in a .env file.
-// ---------------------------------------------------------------------------
+// Runtime Adobe configuration.
+//
+// This holds the Adobe settings the site needs, mainly the Tags embed URL that
+// loader.js uses. A teammate can override these from the Adobe Config panel in
+// the footer without touching the code. The chosen values are stored in the
+// browser localStorage. Build time defaults can also be provided through a .env
+// file, and there is a sensible default embed so the demo works out of the box.
 
 const LS_KEY = 'feastly_adobe_config'
 

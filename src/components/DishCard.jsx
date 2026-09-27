@@ -3,6 +3,8 @@ import { useCart } from '../CartContext.jsx'
 
 export default function DishCard({ dish }) {
   const navigate = useNavigate()
+  // The Add button calls add() from the cart, which pushes an addToCart event to
+  // the data layer. Clicking the card just navigates to the dish page.
   const { add } = useCart()
   const open = () => navigate(`/dish/${dish.id}`)
 

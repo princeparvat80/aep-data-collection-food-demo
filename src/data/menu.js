@@ -1,4 +1,7 @@
-// Feastly menu (mock). In a real app this comes from an API.
+// Static dish catalogue for the demo. In a real site this would come from an API
+// or a commerce backend. It has no Adobe or data layer logic. It only provides
+// the products (id, name, price, category, cuisine) that the pages display and
+// that the tracking functions read when building commerce events.
 
 export const categories = ['Pizza', 'Burgers', 'Indian', 'Sushi', 'Desserts', 'Drinks']
 

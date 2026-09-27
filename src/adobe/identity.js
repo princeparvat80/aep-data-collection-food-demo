@@ -1,10 +1,17 @@
-// ---------------------------------------------------------------------------
-// Identity, session & profile (first-party, no Adobe cookies here)
-// ---------------------------------------------------------------------------
-// Teaching goal: show anonymous -> known identity. Before sign-in the visitor is
-// only known by the Web SDK's ECID (set by Adobe). After sign-in we add an email
-// identity + profile attributes -> AEP stitches them into one profile.
-// ---------------------------------------------------------------------------
+// Identity, session and profile helpers for the website.
+//
+// This file keeps track of who the visitor is, using ordinary browser storage.
+// It does not use Adobe cookies. The point it demonstrates is the move from an
+// anonymous visitor to a known one. Before sign in, Adobe only knows the visitor
+// by the ECID that the Web SDK sets automatically. After sign in we record the
+// email and a few profile attributes here, and getContext() adds them to every
+// event so that Adobe Experience Platform can stitch the anonymous and known
+// identities into a single profile.
+//
+// The values managed here are a persistent visitor id, a per session id, and the
+// signed in user with their profile attributes. getContext() returns the site,
+// device, visitor, session and user information that track.js attaches to every
+// data layer event.
 
 const LS_USER = 'feastly_user'
 const LS_VISITOR = 'feastly_visitor_id'

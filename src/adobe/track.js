@@ -1,22 +1,46 @@
-// ---------------------------------------------------------------------------
-// Feastly tracking API  —  DATA LAYER ONLY
-// ---------------------------------------------------------------------------
-// The website only pushes to window.adobeDataLayer. A Tags (Launch) property
-// reads it and sends XDM to the Datastream -> Adobe Experience Platform.
+// Feastly tracking helpers.
 //
-// Design notes (so it stays clean & teachable):
-//  - Events are serialized (spaced) so rapid actions don't bleed state via the
-//    Adobe Client Data Layer's async, deep-merged computed state.
-//  - Transient branches are reset before each event so one event's data never
-//    leaks into the next.
-//  - Every event carries a global context (site/device/visitor/session/user) so
-//    profiles + identity build correctly in AEP.
-// ---------------------------------------------------------------------------
+// This is the only file in the website that talks to Adobe. Nothing here calls
+// Adobe directly. Every function simply pushes a plain JavaScript object onto
+// window.adobeDataLayer (the Adobe Client Data Layer). The Tags (Launch)
+// property that we load in index.html is what actually listens to that data
+// layer, maps the values into XDM, and sends the event to the datastream, which
+// forwards it to Adobe Experience Platform.
+//
+// The object we push is "the data layer". Its shape is what the whole demo is
+// about, so a quick tour of the pieces:
+//
+//   event        the name of what happened, for example "addToCart". A Tags rule
+//                is set up to listen for each of these names.
+//   commerce     the standard commerce metrics (productViews, productListAdds,
+//                checkouts, purchases and so on). These map to the equivalent
+//                Analytics or AEP commerce fields automatically.
+//   product      the single dish being viewed or added.
+//   order        the full cart or order (used by cart view, checkout, purchase).
+//   food         custom attributes about the dish (category, cuisine).
+//   search       what the user searched for.
+//   rating       an order rating.
+//   page         the current page name and section.
+//   authentication  login, signup or logout details.
+//   plus a global context (site, device, visitor, session, user) added to every
+//   event by getContext() so that AEP can build the profile and stitch identity.
+//
+// Two implementation details worth knowing when reading this file:
+//
+// 1. Events are put on a small queue and pushed one at a time with a short gap.
+//    The Adobe Client Data Layer merges pushes together and processes them
+//    asynchronously, so firing several events in the same instant can let one
+//    event's data leak into the next. Spacing them keeps each hit clean.
+//
+// 2. Before each event we clear the "transient" branches (commerce, product and
+//    so on) by setting them to undefined. That way a purchase does not carry
+//    over into the next page view. The page branch is deliberately left alone so
+//    the current page name stays attached to every following event.
 
 import { getContext } from './identity'
 
-// NOTE: 'page' is intentionally NOT reset — page name persists so every event
-// (including commerce hits) carries the current pageName.
+// Branches that belong to a single event and must be cleared before the next one.
+// 'page' is intentionally not in this list so the page name persists across events.
 const TRANSIENT = ['commerce', 'product', 'order', 'search', 'rating', 'food', 'authentication']
 const GAP_MS = 300
 let queue = []
