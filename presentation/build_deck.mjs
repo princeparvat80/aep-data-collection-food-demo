@@ -52,7 +52,7 @@ s.addShape(pres.ShapeType.ellipse, { x: 10.7, y: -1.4, w: 4.2, h: 4.2, fill: { c
 s.addShape(pres.ShapeType.ellipse, { x: 11.9, y: 4.7, w: 3.0, h: 3.0, fill: { color: GOLD }, line: { color: GOLD } })
 s.addText('🍔', { x: M, y: 1.5, w: 2, h: 1.2, fontSize: 64, isTextBox: true, margin: 0 })
 s.addText('Feastly', { x: M, y: 2.7, w: 9, h: 0.9, fontSize: 30, bold: true, color: GOLD, fontFace: HF, isTextBox: true, margin: 0 })
-s.addText('Understanding Data Collection → AEP', { x: M, y: 3.4, w: 10.5, h: 1.2, fontSize: 44, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
+s.addText('Understanding Data Collection > AEP', { x: M, y: 3.4, w: 10.5, h: 1.2, fontSize: 44, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
 s.addText('How a website sends streaming events, profile attributes and identity into Adobe Experience Platform — the simple, standard way.', { x: M, y: 4.8, w: 9.5, h: 0.9, fontSize: 16, color: 'CADCFC', fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('Presented by', { x: M, y: 5.7, w: 9, h: 0.3, fontSize: 12, color: '9B9B9B', fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('Prince Parvat', { x: M, y: 5.98, w: 9, h: 0.45, fontSize: 22, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
@@ -134,7 +134,7 @@ const terms = [
   ['Data Layer', 'A JS object (adobeDataLayer) the site pushes events into.'],
   ['Extension', 'A plug-in in Tags (e.g. Web SDK, Client Data Layer).'],
   ['Data Element', 'A reusable "variable" that reads a value (from the data layer).'],
-  ['Rule', 'When X happens → do Y (e.g. on "purchase" → send event).'],
+  ['Rule', 'When X happens > do Y (e.g. on "purchase" > send event).'],
   ['Schema (XDM)', 'The agreed structure/shape of the data in AEP.'],
   ['Datastream', 'Server-side config that routes Edge data to AEP (and others).'],
   ['Identity', 'Who the user is — ECID (anon) + Email (known).'],
@@ -179,7 +179,7 @@ titleBar(p1, 'Foundations · 1', 'What is a Tag (Launch) property?')
 p1.addText('Your tracking "control room" — one container that holds everything you configure.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 p1.addShape(pres.ShapeType.roundRect, { x: M, y: 2.2, w: W - 2 * M, h: 4.3, rectRadius: 0.1, fill: { color: 'F7F7F7' }, line: { color: CORAL, width: 1.5 } })
 p1.addText('🏷️  Tag Property — “Feastly Web”', { x: M + 0.3, y: 2.4, w: 8, h: 0.5, fontSize: 17, bold: true, color: CORAL_DK, fontFace: BF, isTextBox: true, margin: 0 })
-const pcards = [['🧩', 'Extensions', 'Plug-ins that add powers (Web SDK, Client Data Layer).'], ['🔤', 'Data Elements', 'Reusable variables that read values from the page.'], ['⚡', 'Rules', 'When X happens → do Y (send an event).'], ['📚', 'Libraries', 'Bundles of changes you build & publish.']]
+const pcards = [['🧩', 'Extensions', 'Plug-ins that add powers (Web SDK, Client Data Layer).'], ['🔤', 'Data Elements', 'Reusable variables that read values from the page.'], ['⚡', 'Rules', 'When X happens > do Y (send an event).'], ['📚', 'Libraries', 'Bundles of changes you build & publish.']]
 const pcw = (W - 2 * M - 0.8 - 3 * 0.3) / 4
 pcards.forEach((c, i) => card(p1, M + 0.4 + i * (pcw + 0.3), 3.15, pcw, 3.0, c[0], c[1], c[2], WHITE, INK))
 p1.addNotes('The property is just a container. Everything else (extensions, data elements, rules, libraries) lives inside it.')
@@ -212,7 +212,7 @@ p3.addNotes('Data element = variable. Read a value from the data layer once; reu
 // --- What is a Rule (Event -> Condition -> Action)
 let p4 = pres.addSlide(); p4.background = { color: WHITE }
 titleBar(p4, 'Foundations · 4', 'What is a Rule?')
-p4.addText('Simple logic: WHEN something happens → (optionally IF a condition) → DO an action.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+p4.addText('Simple logic: WHEN something happens > (optionally IF a condition) > DO an action.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 const rc = [['①  EVENT', 'When…', 'a “purchase” is pushed to the data layer', CORAL], ['②  CONDITION', 'If… (optional)', 'e.g. only on the checkout page', GOLD], ['③  ACTION', 'Then do…', 'Send the event to the Edge (Web SDK)', INK]]
 const rcw = 3.7
 rc.forEach((c, i) => {
@@ -240,7 +240,7 @@ pf.forEach((c, i) => {
   if (i < pf.length - 1) p5.addText('▸', { x: pfx + pfw - 0.03, y: 3.75, w: pfgap + 0.06, h: 0.5, align: 'center', valign: 'middle', fontSize: 15, bold: true, color: CORAL, isTextBox: true, margin: 0 })
   pfx += pfw + pfgap
 })
-p5.addText('For this demo we build to Development and embed that script — the same flow scales to Staging → Production.', { x: M, y: 5.6, w: W - 2 * M, h: 0.5, align: 'center', fontSize: 14, italic: true, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+p5.addText('For this demo we build to Development and embed that script — the same flow scales to Staging > Production.', { x: M, y: 5.6, w: W - 2 * M, h: 0.5, align: 'center', fontSize: 14, italic: true, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 p5.addNotes('Library = a shopping bag of changes. Build = compile. Then promote dev -> staging -> prod. We use dev for the demo.')
 
 // --- The Datastream pipeline (edge fan-out)
@@ -285,7 +285,7 @@ componentSlide('Component 1 · AEP', 'XDM Schema — the shape of the data',
   [['Class: ExperienceEvent', 'The type of record — a time-stamped event.'],
    ['Field groups', 'Web SDK EE + Commerce + custom "Feastly Details".'],
    ['Identity: Email', 'Marked as an identity so AEP can stitch people.'],
-   ['Dataset → Profile', 'Enabled for Profile so events build real-time profiles.']],
+   ['Dataset > Profile', 'Enabled for Profile so events build real-time profiles.']],
   'Schema "Feastly Order Event" — show the field tree (_yourtenant.food / attributes / rating, commerce, identityMap).'
 ).addNotes('Schema = the contract. If a field is not in the schema, it will not land. Show the custom field group and the Email identity.')
 
@@ -303,7 +303,7 @@ componentSlide('Component 3 · Data Collection', 'Tag (Launch) property + extens
   [['Property "Feastly Web"', 'The container for all collection logic.'],
    ['AEP Web SDK extension', 'Configured with the datastream + Org ID.'],
    ['Adobe Client Data Layer', 'Listens to adobeDataLayer pushes.'],
-   ['Publish → embed', 'Build a library, embed the script on the site.']],
+   ['Publish > embed', 'Build a library, embed the script on the site.']],
   'Tags property "Feastly Web" — show Extensions (Web SDK + Client Data Layer) installed.'
 ).addNotes('The property holds extensions, data elements and rules. The embed script is what the site loads (via our Adobe Config panel).')
 
@@ -325,7 +325,7 @@ s.addNotes('Analogy: data elements are like variables; rules are the functions t
 // Slide 9: Rules
 s = pres.addSlide(); s.background = { color: WHITE }
 titleBar(s, 'The building blocks', 'Rules — one per event (13)')
-s.addText('Each rule: WHEN a data-layer event fires → SEND the XDM event to the Edge.', { x: M, y: 1.55, w: W - 2 * M, h: 0.35, fontSize: 14, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+s.addText('Each rule: WHEN a data-layer event fires > SEND the XDM event to the Edge.', { x: M, y: 1.55, w: W - 2 * M, h: 0.35, fontSize: 14, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 const rules = ['Page View', 'View Menu', 'Search', 'Dish View', 'Add To Cart', 'Remove From Cart', 'Checkout', 'Purchase', 'Order Rating', 'Login', 'Signup', 'Profile Update', 'Newsletter']
 rules.forEach((r, i) => {
   const col = i % 4, row = Math.floor(i / 4)
@@ -340,7 +340,7 @@ s.addNotes('Key teaching point: the Event LISTENS for the camelCase data-layer n
 // Slide 10: Identity & Profile (diagram)
 s = pres.addSlide(); s.background = { color: INK }
 s.addText('IDENTITY & PROFILE', { x: M, y: 0.55, w: 10, h: 0.3, fontSize: 12.5, bold: true, color: GOLD, charSpacing: 2, fontFace: BF, isTextBox: true, margin: 0 })
-s.addText('Anonymous → Known: how one profile forms', { x: M, y: 0.85, w: 12, h: 0.8, fontSize: 30, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
+s.addText('Anonymous > Known: how one profile forms', { x: M, y: 0.85, w: 12, h: 0.8, fontSize: 30, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
 // two identity nodes merging
 s.addShape(pres.ShapeType.roundRect, { x: 1.2, y: 2.5, w: 3.6, h: 1.5, rectRadius: 0.1, fill: { color: '2C2C2C' }, line: { color: CORAL, width: 1.25 } })
 s.addText('🕶️  Anonymous', { x: 1.2, y: 2.7, w: 3.6, h: 0.4, align: 'center', fontSize: 15, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
@@ -361,7 +361,7 @@ s.addNotes('Before sign-in the person is only an ECID. After sign-in the Email j
 // Slide 11: Events in action (site + console)
 s = pres.addSlide(); s.background = { color: WHITE }
 titleBar(s, 'See it live', 'Every action becomes an event')
-s.addText('Browse → add to cart → checkout → purchase → rate. Each click pushes a clean event to the data layer, which the console prints.', { x: M, y: 1.55, w: W - 2 * M, h: 0.5, fontSize: 14, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+s.addText('Browse > add to cart > checkout > purchase > rate. Each click pushes a clean event to the data layer, which the console prints.', { x: M, y: 1.55, w: W - 2 * M, h: 0.5, fontSize: 14, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 shot(s, M, 2.2, 5.9, 4.6, 'Feastly site — the home/menu page (the running website).')
 shot(s, 6.8, 2.2, W - M - 6.8, 4.6, 'Browser console — the "[Feastly][dataLayer] purchase" log with the payload expanded.')
 s.addNotes('Open DevTools console live if you can. Show a purchase and expand the object so they see commerce.order, productListItems, identityMap and the attributes.')
@@ -369,7 +369,7 @@ s.addNotes('Open DevTools console live if you can. Show a purchase and expand th
 // Slide 12: Assurance
 componentSlide('Validate', 'Adobe Assurance — watch it flow',
   [['Connect a session', 'Scan/enter the URL to attach the site.'],
-   ['See the chain', 'Data layer event → rule fired → sendEvent.'],
+   ['See the chain', 'Data layer event > rule fired > sendEvent.'],
    ['Inspect the XDM', 'Confirm the exact payload leaving the browser.'],
    ['Edge response', 'A 200 means the Edge accepted the event.']],
   'Assurance — the event list with a "purchase" selected, showing the XDM payload + Edge 200.'
@@ -377,9 +377,9 @@ componentSlide('Validate', 'Adobe Assurance — watch it flow',
 
 // Slide 13: Verify in AEP
 componentSlide('Verify', 'Confirm the data in AEP',
-  [['Dataset → Preview', 'See rows arriving in the Feastly dataset.'],
+  [['Dataset > Preview', 'See rows arriving in the Feastly dataset.'],
    ['Monitoring', 'Batch/streaming ingestion success or failures.'],
-   ['Profile → Lookup', 'Find the person by Email or ECID.'],
+   ['Profile > Lookup', 'Find the person by Email or ECID.'],
    ['Identity graph', 'See ECID ↔ Email linked; events + attributes.']],
   'AEP — Profile lookup showing attributes + event timeline (and the identity graph tab).'
 ).addNotes('This is home turf for the team. Tie it back: the fields they see here are exactly the ones defined in the schema and populated by the rules.')
@@ -403,14 +403,14 @@ tb.forEach((t, i) => {
   s.addText(t[0], { x: x + 0.85, y: y + 0.18, w: cw - 1.1, h: 0.4, fontSize: 15, bold: true, color: CORAL_DK, fontFace: BF, isTextBox: true, margin: 0 })
   s.addText(t[1], { x: x + 0.85, y: y + 0.58, w: cw - 1.1, h: 0.65, fontSize: 12.5, color: INK, fontFace: BF, isTextBox: true, margin: 0 })
 })
-s.addNotes('This is the slide the team will screenshot for their own reference. Walk the funnel top-down: browser (Assurance) → datastream → dataset → profile.')
+s.addNotes('This is the slide the team will screenshot for their own reference. Walk the funnel top-down: browser (Assurance) > datastream > dataset > profile.')
 
 // Slide 15: Mental model recap
 s = pres.addSlide(); s.background = { color: INK }
 s.addText('ONE MENTAL MODEL', { x: M, y: 0.6, w: 10, h: 0.3, fontSize: 12.5, bold: true, color: GOLD, charSpacing: 2, fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('If you remember one thing', { x: M, y: 0.95, w: 12, h: 0.8, fontSize: 30, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
 s.addText('“The website only speaks the data layer. Tags translates it to XDM, the Web SDK ships it to the datastream, and the datastream routes it to AEP.”', { x: M, y: 2.4, w: 12, h: 1.6, fontSize: 24, bold: true, color: WHITE, italic: true, fontFace: HF, isTextBox: true, margin: 0 })
-const recap = ['Data layer = what happened', 'Data elements = variables', 'Rules = when → send', 'Datastream = where it goes']
+const recap = ['Data layer = what happened', 'Data elements = variables', 'Rules = when > send', 'Datastream = where it goes']
 recap.forEach((r, i) => {
   const x = M + i * 3.05
   s.addShape(pres.ShapeType.roundRect, { x, y: 4.5, w: 2.85, h: 1.2, rectRadius: 0.1, fill: { color: '2C2C2C' }, line: { color: CORAL, width: 1 } })
@@ -428,7 +428,7 @@ s.addText([
 ], { x: M, y: 3.4, w: 10.5, h: 0.6, fontSize: 16, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 s.addShape(pres.ShapeType.roundRect, { x: M, y: 4.3, w: 9.5, h: 0.8, rectRadius: 0.08, fill: { color: INK }, line: { type: 'none' } })
 s.addText('github.com/princeparvat80/aep-data-collection-food-demo', { x: M + 0.3, y: 4.3, w: 9, h: 0.8, valign: 'middle', fontSize: 16, bold: true, color: GOLD, fontFace: BF, isTextBox: true, margin: 0 })
-s.addText('Run:  npm install  →  npm run dev  →  http://localhost:5175', { x: M, y: 5.35, w: 10, h: 0.4, fontSize: 14, italic: true, color: INK, fontFace: BF, isTextBox: true, margin: 0 })
+s.addText('Run:  npm install  >  npm run dev  >  http://localhost:5175', { x: M, y: 5.35, w: 10, h: 0.4, fontSize: 14, italic: true, color: INK, fontFace: BF, isTextBox: true, margin: 0 })
 s.addText('Questions? Let\'s open the console and trace an event together.', { x: M, y: 6.5, w: 11, h: 0.4, fontSize: 13, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
 s.addNotes('End by inviting them to clone and try; offer to pair on wiring it to a sandbox.')
 

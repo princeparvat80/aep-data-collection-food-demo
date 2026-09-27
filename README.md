@@ -1,4 +1,4 @@
-# 🍔 Feastly — Learn Adobe Data Collection → AEP
+# 🍔 Feastly — Learn Adobe Data Collection > AEP
 
 A simple, friendly **food-ordering demo website** built to teach how **Adobe Data
 Collection** (Tags/Launch + Web SDK) sends **streaming events and profile
@@ -9,8 +9,8 @@ It's made for **AEP support / practitioners** who want to *see* the collection
 side of the house: the data layer, rules, data elements, datastream, identity,
 and profiles — using the **simplest, most common** setup real customers use.
 
-> Sister demos: an e‑commerce site (→ AEP/AJO/CJA) and TripNest (→ Adobe
-> Analytics → AEP → CJA). Feastly focuses purely on **Web SDK → Datastream → AEP**.
+> Sister demos: an e‑commerce site (> AEP/AJO/CJA) and TripNest (> Adobe
+> Analytics > AEP > CJA). Feastly focuses purely on **Web SDK > Datastream > AEP**.
 
 ---
 
@@ -19,7 +19,7 @@ and profiles — using the **simplest, most common** setup real customers use.
 - How **Tags rules + data elements** turn data-layer pushes into **XDM**
 - How the **Web SDK** sends events to the **Edge/Datastream**
 - How data lands in **AEP** as **experience events** + builds **real-time profiles**
-- **Identity**: anonymous **ECID** → **email identity** after sign-in (stitching)
+- **Identity**: anonymous **ECID** > **email identity** after sign-in (stitching)
 - How to **validate** with Assurance and troubleshoot in AEP
 
 ---
@@ -32,13 +32,13 @@ window.adobeDataLayer.push({ event: "...", ... })      ← the website's only jo
    ↓
 Tags (Launch) property
    ├─ Adobe Client Data Layer extension (listens)
-   ├─ Data Elements (map data layer → XDM + identity)
-   ├─ Rules (one per event → Send Event)
+   ├─ Data Elements (map data layer > XDM + identity)
+   ├─ Rules (one per event > Send Event)
    └─ AEP Web SDK extension
    ↓
 Adobe Edge Network (Datastream)
    ↓
-Adobe Experience Platform  → Event dataset (+ Profile if enabled)
+Adobe Experience Platform  > Event dataset (+ Profile if enabled)
 ```
 
 ## Events it sends (real-world set)
@@ -67,7 +67,7 @@ Adobe is wired up.
 ## Point it at YOUR Adobe (no code edits) 🔌
 1. Click **⚙️ Adobe Config** in the footer.
 2. Paste your **Tags (Launch) environment embed URL**
-   (*Data Collection → Tags → your property → Environments*).
+   (*Data Collection > Tags > your property > Environments*).
 3. **Save & reload** — the site now loads *your* Tags library and sends to *your*
    datastream/sandbox.
 
@@ -82,9 +82,9 @@ and the schema in **[SCHEMA.md](SCHEMA.md)**.
 ## Validate
 1. **Console** — every action logs `[Feastly][dataLayer] <event>` with the payload.
    Type `adobeDataLayer.getState()` to see the merged state.
-2. **Assurance** — connect a session and watch the ACDL event → rule → Web SDK
-   `sendEvent` → Edge response.
-3. **AEP** — Dataset → *Preview*, and **Profile → lookup by identity** to see the
+2. **Assurance** — connect a session and watch the ACDL event > rule > Web SDK
+   `sendEvent` > Edge response.
+3. **AEP** — Dataset > *Preview*, and **Profile > lookup by identity** to see the
    profile + event history and the **identity graph** (ECID ↔ email).
 
 ## Tech

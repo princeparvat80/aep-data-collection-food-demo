@@ -43,7 +43,7 @@ Custom fields live under your tenant prefix (shown as `_yourtenant`).
 > tab**, add a separate **Individual Profile** (record) schema + dataset later —
 > out of scope for this simple demo, but a good "next step" talking point.
 
-## How events map (data layer → XDM eventType)
+## How events map (data layer > XDM eventType)
 | Data-layer `event` | XDM `eventType` |
 |---|---|
 | `pageView` | `web.webpagedetails.pageViews` |

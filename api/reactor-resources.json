@@ -1,0 +1,13 @@
+{
+  "company": "CO3fbcffe0934b41c28555bf865750d8cf",
+  "property": "PR00054be9b3d6446e8d10f6e408021932",
+  "propertyName": "Feastly Web",
+  "datastreamId": "5a439dcd-2363-46fb-a17d-bbceb3cb9f54",
+  "environment": "EN4344fff38c5741f98299de468ac12527",
+  "embedUrl": "https://assets.adobedtm.com/6a203c8a0ff8/78e6bd588c19/launch-157221773b3c-development.min.js",
+  "extensions": ["core", "adobe-alloy (Web SDK)", "gcoe-adobe-client-data-layer (ACDL)"],
+  "dataElements": 11,
+  "rules": 13,
+  "sandbox": "princeparvat-prod",
+  "note": "Entire Data Collection stack (property, extensions, data elements, rules, library, build) created via Reactor API. Schema + dataset created via Schema Registry/Catalog API."
+}

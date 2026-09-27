@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="container footer-inner">
         <div className="logo">🍔 Feastly</div>
         <small style={{ color: '#a89b94' }}>
-          Demo for learning Adobe Data Collection → AEP. Not a real restaurant 😉
+          Demo for learning Adobe Data Collection > AEP. Not a real restaurant 😉
         </small>
         <button onClick={() => setCfgOpen(true)}>
           ⚙️ Adobe Config {isConfigured() ? '🟢' : '🔴'}
