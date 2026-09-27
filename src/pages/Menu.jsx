@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import DishCard from '../components/DishCard.jsx'
 import { dishes, categories } from '../data/menu'
-import { trackPageView, trackViewMenu, trackSearch } from '../adobe/track'
+import { trackViewMenu, trackSearch } from '../adobe/track'
 
 export default function Menu() {
   const [params] = useSearchParams()
@@ -10,7 +10,8 @@ export default function Menu() {
   const [category, setCategory] = useState(initialCat)
   const [term, setTerm] = useState('')
 
-  useEffect(() => { trackPageView('menu') }, [])
+  // viewMenu is the menu page-view (it maps to web.webpagedetails.pageViews and
+  // also carries the category) — so we don't fire a separate pageView here.
   useEffect(() => { trackViewMenu(category) }, [category])
 
   const filtered = useMemo(() => {

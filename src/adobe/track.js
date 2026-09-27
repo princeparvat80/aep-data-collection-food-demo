@@ -15,7 +15,9 @@
 
 import { getContext } from './identity'
 
-const TRANSIENT = ['commerce', 'product', 'order', 'search', 'rating', 'food', 'page', 'authentication']
+// NOTE: 'page' is intentionally NOT reset — page name persists so every event
+// (including commerce hits) carries the current pageName.
+const TRANSIENT = ['commerce', 'product', 'order', 'search', 'rating', 'food', 'authentication']
 const GAP_MS = 300
 let queue = []
 let draining = false
@@ -101,6 +103,15 @@ export function trackRemoveFromCart(dish, qty = 1) {
     event: 'removeFromCart',
     commerce: { productListRemovals: { value: 1 } },
     product: productItem(dish, qty),
+  })
+}
+
+export function trackCartView(cart) {
+  if (!cart || !cart.length) return
+  push({
+    event: 'cartView',
+    commerce: { productListOpens: { value: 1 } },
+    order: cartToOrder(cart),
   })
 }
 
