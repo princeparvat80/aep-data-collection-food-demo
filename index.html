@@ -17,6 +17,14 @@
     <script>
       window.adobeDataLayer = window.adobeDataLayer || [];
     </script>
+    <!--
+      Adobe Client Data Layer LIBRARY. This turns window.adobeDataLayer from a
+      plain array into an event-emitting, managed data layer (adds addEventListener
+      + getState). REQUIRED: the Tags "Adobe Client Data Layer" extension listens
+      for events on this managed data layer to trigger rules. Loaded synchronously
+      before the Tags embed so it is ready when the extension initialises.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/@adobe/adobe-client-data-layer@2/dist/adobe-client-data-layer.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
