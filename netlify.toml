@@ -1,0 +1,10 @@
+# Netlify build + SPA routing config for Feastly (Vite + React Router)
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Serve index.html for any client-side route (fixes 404 on hard-refresh / deep links)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
