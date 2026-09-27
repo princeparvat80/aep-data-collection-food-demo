@@ -29,7 +29,7 @@ Website → adobeDataLayer → Tags (ACDL + rules + data elements + Web SDK)
 ### Data Elements (Adobe Client Data Layer → *Computed State*, one per path)
 | Name | Path |
 |---|---|
-| `Feastly - page` | `page` |
+| `Feastly - page name` | `page.name` |
 | `Feastly - commerce` | `commerce` |
 | `Feastly - product` | `product` |
 | `Feastly - order` | `order` |
@@ -38,11 +38,18 @@ Website → adobeDataLayer → Tags (ACDL + rules + data elements + Web SDK)
 | `Feastly - rating` | `rating` |
 | `Feastly - user` | `user` |
 
-**Custom Code** data element `Feastly - productListItems`:
+**Custom Code** data element `Feastly - productListItems` (handles a single dish
+*and* multi-item orders on checkout/purchase):
 ```js
+var order = _satellite.getVar('Feastly - order');
+if (order && order.items && order.items.length) {
+  return order.items.map(function (i) {
+    return { SKU: i.id, name: i.name, quantity: i.quantity, priceTotal: i.priceTotal };
+  });
+}
 var p = _satellite.getVar('Feastly - product');
-if (!p || !p.id) return [];
-return [{ SKU: p.id, name: p.name, quantity: p.quantity, priceTotal: p.priceTotal }];
+if (p && p.id) return [{ SKU: p.id, name: p.name, quantity: p.quantity, priceTotal: p.priceTotal }];
+return [];
 ```
 
 **Custom Code** data element `Feastly - identityMap` (adds Email identity when known):
@@ -58,7 +65,7 @@ return map; // ECID is added automatically by the Web SDK
 **XDM Object** data element `Feastly - XDM` (Web SDK type, schema = Feastly Order Event):
 | XDM field | Value |
 |---|---|
-| `web.webPageDetails.name` | `%Feastly - page%` → `.name` (or a page-name element) |
+| `web.webPageDetails.name` | `%Feastly - page name%` |
 | `commerce` | `%Feastly - commerce%` |
 | `productListItems` | `%Feastly - productListItems%` |
 | `identityMap` | `%Feastly - identityMap%` |
