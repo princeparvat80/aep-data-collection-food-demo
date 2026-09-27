@@ -121,6 +121,120 @@ terms.forEach((t, i) => {
 })
 s.addNotes('Do not linger — this is a reference slide. Tell people it maps to the flow: data layer -> data elements -> rules -> web sdk -> datastream -> schema/identity/profile.')
 
+// ============================ FOUNDATIONS SECTION ============================
+// small helper: labelled card
+function card(sl, x, y, w, h, emoji, title, body, bg = SOFT, fg = INK) {
+  sl.addShape(pres.ShapeType.roundRect, { x, y, w, h, rectRadius: 0.09, fill: { color: bg }, line: { type: 'none' } })
+  if (emoji) sl.addText(emoji, { x, y: y + 0.18, w, h: 0.55, align: 'center', fontSize: 26, isTextBox: true, margin: 0 })
+  sl.addText(title, { x: x + 0.15, y: y + (emoji ? 0.78 : 0.16), w: w - 0.3, h: 0.4, align: 'center', fontSize: 14.5, bold: true, color: fg, fontFace: BF, isTextBox: true, margin: 0 })
+  sl.addText(body, { x: x + 0.2, y: y + (emoji ? 1.15 : 0.55), w: w - 0.4, h: h - (emoji ? 1.25 : 0.65), align: 'center', fontSize: 11.5, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+}
+function chev(sl, x, y, h = 0.5) {
+  sl.addText('▸', { x, y, w: 0.5, h, align: 'center', valign: 'middle', fontSize: 22, bold: true, color: CORAL, isTextBox: true, margin: 0 })
+}
+
+// --- Section divider
+let fd = pres.addSlide(); fd.background = { color: INK }
+fd.addShape(pres.ShapeType.ellipse, { x: -1.3, y: 4.6, w: 3.8, h: 3.8, fill: { color: CORAL }, line: { type: 'none' } })
+fd.addShape(pres.ShapeType.ellipse, { x: 11.6, y: -1.4, w: 3.4, h: 3.4, fill: { color: GOLD }, line: { type: 'none' } })
+fd.addText('PART 1', { x: M, y: 2.5, w: 8, h: 0.4, fontSize: 14, bold: true, color: GOLD, charSpacing: 3, fontFace: BF, isTextBox: true, margin: 0 })
+fd.addText('Foundations', { x: M, y: 2.95, w: 11, h: 1.0, fontSize: 48, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
+fd.addText('The words your team will hear — explained simply, with pictures.', { x: M, y: 4.1, w: 10, h: 0.5, fontSize: 17, color: 'CADCFC', fontFace: BF, isTextBox: true, margin: 0 })
+fd.addNotes('Transition: before we look at the actual config, let us learn the vocabulary visually.')
+
+// --- What is a Tag property (container diagram)
+let p1 = pres.addSlide(); p1.background = { color: WHITE }
+titleBar(p1, 'Foundations · 1', 'What is a Tag (Launch) property?')
+p1.addText('Your tracking "control room" — one container that holds everything you configure.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+p1.addShape(pres.ShapeType.roundRect, { x: M, y: 2.2, w: W - 2 * M, h: 4.3, rectRadius: 0.1, fill: { color: 'FBF4F0' }, line: { color: CORAL, width: 1.5 } })
+p1.addText('🏷️  Tag Property — “Feastly Web”', { x: M + 0.3, y: 2.4, w: 8, h: 0.5, fontSize: 17, bold: true, color: CORAL_DK, fontFace: BF, isTextBox: true, margin: 0 })
+const pcards = [['🧩', 'Extensions', 'Plug-ins that add powers (Web SDK, Client Data Layer).'], ['🔤', 'Data Elements', 'Reusable variables that read values from the page.'], ['⚡', 'Rules', 'When X happens → do Y (send an event).'], ['📚', 'Libraries', 'Bundles of changes you build & publish.']]
+const pcw = (W - 2 * M - 0.8 - 3 * 0.3) / 4
+pcards.forEach((c, i) => card(p1, M + 0.4 + i * (pcw + 0.3), 3.15, pcw, 3.0, c[0], c[1], c[2], WHITE, INK))
+p1.addNotes('The property is just a container. Everything else (extensions, data elements, rules, libraries) lives inside it.')
+
+// --- What is an Extension
+let p2 = pres.addSlide(); p2.background = { color: WHITE }
+titleBar(p2, 'Foundations · 2', 'What is an Extension?')
+p2.addText('A plug-in that gives the property new capabilities — like installing an app on your phone.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+const ex = [['🧱', 'Core', 'Built-in basics: custom code, page-load events.'], ['📡', 'AEP Web SDK', 'Sends events to the Edge / Datastream.'], ['📦', 'Adobe Client Data Layer', 'Listens to adobeDataLayer pushes.']]
+const ecw = (W - 2 * M - 2 * 0.4) / 3
+ex.forEach((c, i) => card(p2, M + i * (ecw + 0.4), 2.5, ecw, 2.6, c[0], c[1], c[2]))
+p2.addText('We only need these two ➜ AEP Web SDK  +  Adobe Client Data Layer', { x: M, y: 5.5, w: W - 2 * M, h: 0.5, align: 'center', fontSize: 15, bold: true, italic: true, color: CORAL_DK, fontFace: BF, isTextBox: true, margin: 0 })
+p2.addNotes('Extensions add features. Feastly needs just two: the Web SDK (to send) and the Client Data Layer (to listen).')
+
+// --- What is a Data Element (flow diagram)
+let p3 = pres.addSlide(); p3.background = { color: WHITE }
+titleBar(p3, 'Foundations · 3', 'What is a Data Element?')
+p3.addText('A named, reusable "variable" that grabs a value once — so every rule can reuse it.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+p3.addShape(pres.ShapeType.roundRect, { x: M, y: 2.7, w: 3.6, h: 2.0, rectRadius: 0.1, fill: { color: INK }, line: { type: 'none' } })
+p3.addText('Data layer', { x: M, y: 2.9, w: 3.6, h: 0.4, align: 'center', fontSize: 14, bold: true, color: GOLD, fontFace: BF, isTextBox: true, margin: 0 })
+p3.addText('{ user: {\n   email: "a@b.com"\n} }', { x: M + 0.3, y: 3.3, w: 3.0, h: 1.2, fontSize: 12.5, color: WHITE, fontFace: 'Courier New', isTextBox: true, margin: 0 })
+chev(p3, M + 3.75, 3.45, 0.6)
+card(p3, M + 4.4, 2.7, 3.6, 2.0, '🔤', 'Data Element', '“Feastly - user”\nreads user from the data layer', WHITE, INK)
+p3.addShape(pres.ShapeType.roundRect, { x: M + 4.4, y: 2.7, w: 3.6, h: 2.0, rectRadius: 0.1, fill: { type: 'none' }, line: { color: CORAL, width: 1.5 } })
+chev(p3, M + 8.15, 3.45, 0.6)
+card(p3, M + 8.8, 2.7, W - M - (M + 8.8), 2.0, '⚡', 'Reused in Rules', 'Every rule references it — define once, use everywhere.', SOFT, INK)
+p3.addText('Analogy: like a saved contact — set the number once, dial it from anywhere.', { x: M, y: 5.5, w: W - 2 * M, h: 0.4, align: 'center', fontSize: 14, italic: true, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+p3.addNotes('Data element = variable. Read a value from the data layer once; reuse in many rules and in the XDM object.')
+
+// --- What is a Rule (Event -> Condition -> Action)
+let p4 = pres.addSlide(); p4.background = { color: WHITE }
+titleBar(p4, 'Foundations · 4', 'What is a Rule?')
+p4.addText('Simple logic: WHEN something happens → (optionally IF a condition) → DO an action.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+const rc = [['①  EVENT', 'When…', 'a “purchase” is pushed to the data layer', CORAL], ['②  CONDITION', 'If… (optional)', 'e.g. only on the checkout page', GOLD], ['③  ACTION', 'Then do…', 'Send the event to the Edge (Web SDK)', INK]]
+const rcw = 3.7
+rc.forEach((c, i) => {
+  const x = M + i * (rcw + 0.45)
+  const fg = c[3] === GOLD ? INK : WHITE
+  p4.addShape(pres.ShapeType.roundRect, { x, y: 2.6, w: rcw, h: 2.4, rectRadius: 0.1, fill: { color: c[3] }, line: { type: 'none' } })
+  p4.addText(c[0], { x, y: 2.8, w: rcw, h: 0.5, align: 'center', fontSize: 17, bold: true, color: fg, fontFace: BF, isTextBox: true, margin: 0 })
+  p4.addText(c[1], { x, y: 3.35, w: rcw, h: 0.4, align: 'center', fontSize: 14, italic: true, color: fg, fontFace: BF, isTextBox: true, margin: 0 })
+  p4.addText(c[2], { x: x + 0.25, y: 3.85, w: rcw - 0.5, h: 1.0, align: 'center', fontSize: 13, color: fg, fontFace: BF, isTextBox: true, margin: 0 })
+  if (i < 2) chev(p4, x + rcw + 0.0, 3.6, 0.6)
+})
+p4.addText('⚠️  Event listens for the data-layer name (purchase). Action Type = the XDM eventType (commerce.purchases). Don\'t mix them up!', { x: M, y: 5.6, w: W - 2 * M, h: 0.5, align: 'center', fontSize: 13.5, bold: true, color: CORAL_DK, fontFace: BF, isTextBox: true, margin: 0 })
+p4.addNotes('Rules are just Event -> Condition -> Action. Our rules mostly skip the condition: on <event> -> Send event.')
+
+// --- Publishing Flow / Library (dev -> prod)
+let p5 = pres.addSlide(); p5.background = { color: WHITE }
+titleBar(p5, 'Foundations · 5', 'Publishing Flow & Libraries')
+p5.addText('A Library bundles your changes; you Build it, then promote it through environments.', { x: M, y: 1.55, w: W - 2 * M, h: 0.4, fontSize: 15, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+const pf = [['📝', 'Changes', 'Edit data\nelements & rules'], ['📚', 'Library', 'Bundle the\nchanges'], ['🔨', 'Build', 'Compile to a\nscript file'], ['🧪', 'Development', 'Test on the\ndev site'], ['🚦', 'Staging', 'QA / approval'], ['🚀', 'Production', 'Live to users']]
+const pfw = 1.85, pfgap = 0.16
+let pfx = (W - (pf.length * pfw + (pf.length - 1) * pfgap)) / 2
+pf.forEach((c, i) => {
+  const live = i >= 3
+  card(p5, pfx, 2.9, pfw, 2.2, c[0], c[1], c[2], live ? SOFT : 'F4EEEA', INK)
+  if (i < pf.length - 1) p5.addText('▸', { x: pfx + pfw - 0.03, y: 3.75, w: pfgap + 0.06, h: 0.5, align: 'center', valign: 'middle', fontSize: 15, bold: true, color: CORAL, isTextBox: true, margin: 0 })
+  pfx += pfw + pfgap
+})
+p5.addText('For this demo we build to Development and embed that script — the same flow scales to Staging → Production.', { x: M, y: 5.6, w: W - 2 * M, h: 0.5, align: 'center', fontSize: 14, italic: true, color: MUTED, fontFace: BF, isTextBox: true, margin: 0 })
+p5.addNotes('Library = a shopping bag of changes. Build = compile. Then promote dev -> staging -> prod. We use dev for the demo.')
+
+// --- The Datastream pipeline (edge fan-out)
+let p6 = pres.addSlide(); p6.background = { color: INK }
+p6.addText('FOUNDATIONS · 6', { x: M, y: 0.55, w: 10, h: 0.3, fontSize: 12.5, bold: true, color: GOLD, charSpacing: 2, fontFace: BF, isTextBox: true, margin: 0 })
+p6.addText('The Datastream pipeline', { x: M, y: 0.85, w: 12, h: 0.8, fontSize: 32, bold: true, color: WHITE, fontFace: HF, isTextBox: true, margin: 0 })
+p6.addText('The Web SDK sends ONE event to the Edge. The datastream decides which Adobe apps receive it — server-side.', { x: M, y: 1.7, w: 12, h: 0.5, fontSize: 15, color: 'CADCFC', fontFace: BF, isTextBox: true, margin: 0 })
+// browser -> edge -> datastream
+p6.addShape(pres.ShapeType.roundRect, { x: M, y: 2.7, w: 2.7, h: 1.4, rectRadius: 0.1, fill: { color: '3A302B' }, line: { color: CORAL, width: 1.25 } })
+p6.addText('🖥️ Browser\nWeb SDK', { x: M, y: 3.0, w: 2.7, h: 0.9, align: 'center', fontSize: 14, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
+p6.addText('▸', { x: M + 2.75, y: 3.15, w: 0.5, h: 0.5, align: 'center', fontSize: 22, bold: true, color: CORAL, isTextBox: true, margin: 0 })
+p6.addShape(pres.ShapeType.roundRect, { x: M + 3.35, y: 2.7, w: 2.9, h: 1.4, rectRadius: 0.1, fill: { color: '3A302B' }, line: { color: CORAL, width: 1.25 } })
+p6.addText('🔀 Edge Network\n+ Datastream', { x: M + 3.35, y: 3.0, w: 2.9, h: 0.9, align: 'center', fontSize: 14, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
+// fan-out
+const fo = [['☁️ AEP', 'Profiles + datasets', CORAL], ['📊 Analytics', 'Reports (optional)', '3A302B'], ['🎯 Target', 'Personalization (optional)', '3A302B']]
+fo.forEach((c, i) => {
+  const y = 2.35 + i * 1.3
+  p6.addText('▸', { x: M + 6.35, y: y + 0.15, w: 0.5, h: 0.5, align: 'center', fontSize: 18, bold: true, color: CORAL, isTextBox: true, margin: 0 })
+  p6.addShape(pres.ShapeType.roundRect, { x: M + 6.95, y, w: 5.0, h: 1.05, rectRadius: 0.1, fill: { color: c[2] }, line: { color: c[2] === CORAL ? CORAL : '5A4E48', width: 1 } })
+  p6.addText(c[0], { x: M + 7.2, y: y + 0.12, w: 4.6, h: 0.4, fontSize: 15, bold: true, color: WHITE, fontFace: BF, isTextBox: true, margin: 0 })
+  p6.addText(c[1], { x: M + 7.2, y: y + 0.55, w: 4.6, h: 0.4, fontSize: 12, color: 'D9CFC9', fontFace: BF, isTextBox: true, margin: 0 })
+})
+p6.addText('Feastly enables only AEP — but the same event could feed all three without touching the website.', { x: M, y: 6.7, w: 12, h: 0.4, fontSize: 12.5, italic: true, color: 'CADCFC', fontFace: BF, isTextBox: true, margin: 0 })
+p6.addNotes('Key idea: one call to the Edge, fanned out server-side by the datastream. Add/remove destinations without code changes.')
+
 // -------------------------------------------------- reusable "component" slide with screenshot
 function componentSlide(kicker, title, bullets, shotLabel) {
   const sl = pres.addSlide(); sl.background = { color: WHITE }
