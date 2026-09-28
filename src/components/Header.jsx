@@ -4,7 +4,7 @@ import { useCart } from '../CartContext.jsx'
 import CartDrawer from './CartDrawer.jsx'
 import SignInModal from './SignInModal.jsx'
 import { getUser, onUserChange, signOut } from '../adobe/identity'
-import { trackLogout } from '../adobe/track'
+import { dataLayer } from '../dataLayer'
 
 export default function Header() {
   const { count } = useCart()
@@ -16,7 +16,7 @@ export default function Header() {
 
   // Data layer: signing out pushes a logout event, then clears the stored user so
   // later events go back to being anonymous.
-  const doSignOut = () => { trackLogout(); signOut() }
+  const doSignOut = () => { dataLayer.logout(); signOut() }
 
   return (
     <header className="header">

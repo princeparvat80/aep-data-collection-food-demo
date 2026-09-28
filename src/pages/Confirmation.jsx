@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
-import { trackPageView, trackOrderRating } from '../adobe/track'
+import { dataLayer } from '../dataLayer'
 
 export default function Confirmation() {
   const { state } = useLocation()
@@ -8,7 +8,7 @@ export default function Confirmation() {
   const [rated, setRated] = useState(0)
   // Data layer: the confirmation page pushes a pageView named "order-confirmation".
   // The purchase event itself was already sent on the checkout page.
-  useEffect(() => { trackPageView('order-confirmation') }, [])
+  useEffect(() => { dataLayer.pageView('order-confirmation') }, [])
 
   if (!state?.order) return (
     <div className="container section confirm"><h1>No recent order</h1>
@@ -18,7 +18,7 @@ export default function Confirmation() {
   const { order, name } = state
   // Data layer: choosing a star rating pushes an orderRating event with the order
   // id and the number of stars.
-  const rate = (stars) => { setRated(stars); trackOrderRating({ orderId: order.id, stars }) }
+  const rate = (stars) => { setRated(stars); dataLayer.orderRating({ orderId: order.id, stars }) }
 
   return (
     <div className="container confirm">

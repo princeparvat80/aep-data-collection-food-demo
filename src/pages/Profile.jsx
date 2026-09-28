@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getUser, updateProfile } from '../adobe/identity'
-import { trackPageView, trackProfileUpdate, trackNewsletter } from '../adobe/track'
+import { dataLayer } from '../dataLayer'
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -10,7 +10,7 @@ export default function Profile() {
   const [saved, setSaved] = useState(false)
 
   // Data layer: opening the account page pushes a pageView named "profile".
-  useEffect(() => { trackPageView('profile') }, [])
+  useEffect(() => { dataLayer.pageView('profile') }, [])
   useEffect(() => { if (!getUser()) navigate('/') }, [])
 
   if (!user) return null
@@ -24,8 +24,8 @@ export default function Profile() {
     // attribute values (loyalty tier, dietary preference, city and so on). These
     // are the streaming profile attributes that build the AEP profile. If the
     // marketing consent was part of the form we also push a newsletterSignup event.
-    trackProfileUpdate(next)
-    if ('marketingConsent' in form) trackNewsletter({ email: next.email, consent: next.marketingConsent })
+    dataLayer.profileUpdate(next)
+    if ('marketingConsent' in form) dataLayer.newsletter({ email: next.email, consent: next.marketingConsent })
     setSaved(true); setTimeout(() => setSaved(false), 2500)
   }
 

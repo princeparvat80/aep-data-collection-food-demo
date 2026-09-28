@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { findDish } from '../data/menu'
 import { useCart } from '../CartContext.jsx'
-import { trackPageView, trackDishView } from '../adobe/track'
+import { dataLayer } from '../dataLayer'
 
 export default function DishDetail() {
   const { id } = useParams()
@@ -15,7 +15,7 @@ export default function DishDetail() {
   // commerce sites work. First a pageView with the name "dish-detail" for the page
   // view itself, then a dishView which sets commerce.productViews and the product
   // details so Adobe records a product view for this dish.
-  useEffect(() => { if (dish) { trackPageView('dish-detail'); trackDishView(dish) } }, [id])
+  useEffect(() => { if (dish) { dataLayer.pageView('dish-detail'); dataLayer.dishView(dish) } }, [id])
 
   if (!dish) return (
     <div className="container section"><h2>Dish not found</h2>

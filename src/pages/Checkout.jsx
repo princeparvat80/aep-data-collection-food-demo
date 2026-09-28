@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../CartContext.jsx'
 import { getUser, onUserChange } from '../adobe/identity'
-import { trackCheckout, trackPurchase } from '../adobe/track'
+import { dataLayer } from '../dataLayer'
 import SignInModal from '../components/SignInModal.jsx'
 
 function newOrderId() { return 'FST-' + Math.random().toString(36).slice(2, 8).toUpperCase() }
@@ -29,7 +29,7 @@ export default function Checkout() {
   // commerce.checkouts and the list of items in the cart. We only fire this once
   // the visitor is signed in, since checkout is gated behind sign in.
   useEffect(() => {
-    if (user && items.length) trackCheckout(items)
+    if (user && items.length) dataLayer.checkout(items)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
@@ -76,7 +76,7 @@ export default function Checkout() {
     // important event of the funnel. It sets commerce.purchases, the order id and
     // revenue, and the full list of purchased items, which become the order and
     // revenue metrics in Adobe.
-    trackPurchase(order)
+    dataLayer.purchase(order)
     clear()
     navigate('/confirmation', { state: { order, name: form.name } })
   }
