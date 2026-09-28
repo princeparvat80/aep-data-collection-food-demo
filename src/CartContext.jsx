@@ -1,13 +1,13 @@
 // Shopping cart state for the whole app, shared through React context.
 //
 // This is normal React state, but it is also where several data layer events
-// originate. Adding an item calls trackAddToCart, and lowering the quantity or
-// removing a line calls trackRemoveFromCart, which mirrors how a real commerce
-// site records cart changes. Keeping the tracking here means every place that
-// changes the cart reports the same event, so we never miss one.
+// originate. Adding an item calls dataLayer.addToCart, and lowering the quantity
+// or removing a line calls dataLayer.removeFromCart, which mirrors how a real
+// commerce site records cart changes. Keeping the tracking here means every place
+// that changes the cart reports the same event, so we never miss one.
 
 import { createContext, useContext, useState, useCallback } from 'react'
-import { trackAddToCart, trackRemoveFromCart } from './adobe/track'
+import { dataLayer } from './dataLayer'
 
 const CartContext = createContext(null)
 export const useCart = () => useContext(CartContext)
@@ -21,12 +21,12 @@ export function CartProvider({ children }) {
       if (found) return prev.map((i) => i.dish.id === dish.id ? { ...i, qty: i.qty + qty } : i)
       return [...prev, { dish, qty }]
     })
-    trackAddToCart(dish, qty)
+    dataLayer.addToCart(dish, qty)
   }, [])
 
   const remove = useCallback((dish) => {
     setItems((prev) => prev.filter((i) => i.dish.id !== dish.id))
-    trackRemoveFromCart(dish)
+    dataLayer.removeFromCart(dish)
   }, [])
 
   // Decrease quantity by 1. Real-world: lowering cart qty = a remove-from-cart.
@@ -36,7 +36,7 @@ export function CartProvider({ children }) {
       if (found && found.qty > 1) return prev.map((i) => i.dish.id === dish.id ? { ...i, qty: i.qty - 1 } : i)
       return prev.filter((i) => i.dish.id !== dish.id) // qty hits 0 -> remove line
     })
-    trackRemoveFromCart(dish, 1)
+    dataLayer.removeFromCart(dish, 1)
   }, [])
 
   const setQty = useCallback((dish, qty) => {

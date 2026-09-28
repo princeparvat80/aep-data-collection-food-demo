@@ -4,14 +4,14 @@
 // It does not use Adobe cookies. The point it demonstrates is the move from an
 // anonymous visitor to a known one. Before sign in, Adobe only knows the visitor
 // by the ECID that the Web SDK sets automatically. After sign in we record the
-// email and a few profile attributes here, and getContext() adds them to every
-// event so that Adobe Experience Platform can stitch the anonymous and known
-// identities into a single profile.
+// email and a few profile attributes here, and the data layer (src/dataLayer.js)
+// adds them to every event so that Adobe Experience Platform can stitch the
+// anonymous and known identities into a single profile.
 //
 // The values managed here are a persistent visitor id, a per session id, and the
-// signed in user with their profile attributes. getContext() returns the site,
-// device, visitor, session and user information that track.js attaches to every
-// data layer event.
+// signed in user with their profile attributes. src/dataLayer.js reads these
+// getters (getVisitorId, getSessionId, getVisitorType, getUser) to build the
+// site/device/visitor/session/user context it attaches to every event.
 
 const LS_USER = 'feastly_user'
 const LS_VISITOR = 'feastly_visitor_id'
@@ -78,34 +78,4 @@ export function updateProfile(patch) {
 export function signOut() {
   localStorage.removeItem(LS_USER)
   emit(null)
-}
-
-function detectDevice() {
-  const w = window.innerWidth
-  return w < 768 ? 'mobile' : w < 1024 ? 'tablet' : 'desktop'
-}
-
-// Context merged into every event (site/device/visitor/session/user).
-export function getContext() {
-  const user = getUser()
-  return {
-    site: { brand: 'Feastly', businessUnit: 'food', platform: 'web',
-      language: navigator.language || 'en-US', currency: 'USD' },
-    device: { type: detectDevice(), viewport: `${innerWidth}x${innerHeight}` },
-    visitor: { id: getVisitorId(), type: getVisitorType() },
-    session: { id: getSessionId() },
-    user: user
-      ? {
-          authenticated: true,
-          email: user.email,
-          customerId: user.customerId,
-          firstName: user.firstName,
-          loyaltyTier: user.loyaltyTier,
-          dietaryPreference: user.dietaryPreference,
-          favoriteCuisine: user.favoriteCuisine,
-          city: user.city,
-          marketingConsent: user.marketingConsent,
-        }
-      : { authenticated: false },
-  }
 }

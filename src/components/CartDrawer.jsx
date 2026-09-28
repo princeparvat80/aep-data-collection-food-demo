@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../CartContext.jsx'
-import { trackCartView } from '../adobe/track'
+import { dataLayer } from '../dataLayer'
 
 export default function CartDrawer({ open, onClose }) {
   const { items, add, decrement, remove, total } = useCart()
   const navigate = useNavigate()
   // Fire a cartView event whenever the drawer is opened with items in it.
-  useEffect(() => { if (open) trackCartView(items) }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (open) dataLayer.cartView(items) }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
   if (!open) return null
 
   const goCheckout = () => { onClose(); navigate('/checkout') }

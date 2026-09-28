@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { signIn } from '../adobe/identity'
-import { trackLogin, trackSignup } from '../adobe/track'
+import { dataLayer } from '../dataLayer'
 
 const CUISINES = ['', 'Italian', 'Indian', 'Japanese', 'American', 'French']
 
@@ -22,8 +22,8 @@ export default function SignInModal({ open, onClose, onDone }) {
     // moment the visitor becomes known, so from here on the email is added to the
     // identity map and Adobe can stitch it to the earlier anonymous activity.
     const user = signIn(form)
-    if (mode === 'signup') trackSignup(user)
-    else trackLogin(user)
+    if (mode === 'signup') dataLayer.signup(user)
+    else dataLayer.login(user)
     onDone?.(user)
     onClose()
   }
