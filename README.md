@@ -98,9 +98,11 @@ src/
     config.js     runtime config (localStorage) for the Tags embed URL
     loader.js     injects the Tags embed at runtime
     identity.js   visitor/session/user + profile + global context
-    track.js      pushes serialized, clean events to adobeDataLayer
+    dataLayer.js  the single data layer; all data-collection code lives here
   components/     Header, Footer, DishCard, CartDrawer, SignInModal, AdobeConfigPanel
   pages/          Home, Menu, DishDetail, Checkout, Confirmation, Profile
   data/menu.js    mock dishes
   CartContext.jsx cart state
 ```
+
+Full architecture and end-to-end implementation guide: **[FEASTLY_ARCHITECTURE.md](FEASTLY_ARCHITECTURE.md)**.
